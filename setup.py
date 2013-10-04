@@ -25,7 +25,7 @@ from distutils.core import setup
 
 setup(
 	name = 'yelpapi',
-	version = '1.0',
+	version = '1.1',
 	description = 'yelpapi is a pure Python implementation of the Yelp v2.0 API.',
 	long_description = """yelpapi is a pure Python implementation of the `Yelp v2.0 API <http://www.yelp.com/developers/documentation/v2/overview>`_. It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
@@ -49,7 +49,6 @@ For more information on yelpapi, visit the `GitHub project page <https://github.
 		'yelpapi',
 		],
 	requires = [
-		'requests',
-		'oauth2',
+		'requests_oauthlib',
 		],
 )

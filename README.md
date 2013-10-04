@@ -13,7 +13,7 @@ This software is licensed under the [BSD 3-Clause License](http://opensource.org
 yelpapi is a pure Python implementation of the [Yelp v2.0 API](http://www.yelp.com/developers/documentation/v2/overview). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 ## REQUIREMENTS
-This code requires Python 2.7 or higher, [python-oauth2](https://github.com/simplegeo/python-oauth2), and [requests](http://docs.python-requests.org/). It likely works under Python 3 using 2to3, but I haven't tested it.
+This code requires Python 2.7 or higher and [requests_oauthlib](https://github.com/requests/requests-oauthlib). It likely works under Python 3 using 2to3, but I haven't tested it.
 
 ## INSTALL
 yelpapi is available on PyPI at https://pypi.python.org/pypi/yelpapi.

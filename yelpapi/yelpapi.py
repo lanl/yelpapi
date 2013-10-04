@@ -21,8 +21,7 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import oauth2
-import requests
+from requests_oauthlib import OAuth1Session
 
 SEARCH_API_URL = 'http://api.yelp.com/v2/search'
 BUSINESS_API_URL = 'http://api.yelp.com/v2/business/%s'
@@ -50,24 +49,7 @@ class YelpAPI(object):
 		pass
 
 	def __init__(self, consumer_key, consumer_secret, token, token_secret):
-		self._consumer_key = consumer_key
-		self._consumer_secret = consumer_secret
-		self._token = token
-		self._token_secret = token_secret
-		self._consumer = oauth2.Consumer(consumer_key, consumer_secret)
-	
-	def _get_auth_url(self, url, parameters):
-		"""
-			Get the authentication URL using OAuth 2.
-		"""
-		oauth_request = oauth2.Request('GET', url, parameters)
-		oauth_request.update({'oauth_nonce': oauth2.generate_nonce(), \
-							  'oauth_timestamp': oauth2.generate_timestamp(),
-							  'oauth_token': self._token, \
-							  'oauth_consumer_key': self._consumer_key})
-		token = oauth2.Token(self._token, self._token_secret)
-		oauth_request.sign_request(oauth2.SignatureMethod_HMAC_SHA1(), self._consumer, token)
-		return oauth_request.to_url()
+		self._yelp_session = OAuth1Session(consumer_key, consumer_secret, token, token_secret)
 	
 	@staticmethod
 	def _get_clean_parameters(kwargs):
@@ -82,8 +64,7 @@ class YelpAPI(object):
 			Arbitrary keywords can be passed in, and a list of businesses (each represented as a dict) will be returned.
 		"""
 		parameters = YelpAPI._get_clean_parameters(kwargs)
-		url = self._get_auth_url(SEARCH_API_URL, parameters)
-		response = requests.get(url)
+		response = self._yelp_session.get(SEARCH_API_URL, params=parameters)
 
 		#raise YelpError if Yelp returns invalid JSON or something other than JSON
 		try:
@@ -112,8 +93,7 @@ class YelpAPI(object):
 			raise ValueError('A valid business ID must be given.')
 
 		parameters = YelpAPI._get_clean_parameters(kwargs)
-		url = self._get_auth_url(BUSINESS_API_URL % id, parameters)
-		response = requests.get(url)
+		response = self._yelp_session.get(BUSINESS_API_URL % id, params=parameters)
 
 		#Yelp currently returns a 404 HTML page if an invalid business ID is provided, so check for that
 		try:
