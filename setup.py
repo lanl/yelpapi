@@ -48,7 +48,7 @@ For more information on yelpapi, visit the `GitHub project page <https://github.
 	packages = [
 		'yelpapi',
 		],
-	requires = [
+	install_requires = [
 		'requests_oauthlib',
 		],
 )
