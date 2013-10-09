@@ -7,7 +7,7 @@ Geoffrey Fairchild
 * [http://www.linkedin.com/in/gfairchild/](http://www.linkedin.com/in/gfairchild/)
 
 ## LICENSE
-This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate LICENSE.txt file for the exact text of the license. You are obligated to give attribution if you use this code.
+This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE.txt](LICENSE.txt) file for the exact text of the license. You are obligated to give attribution if you use this code.
 
 ## ABOUT
 yelpapi is a pure Python implementation of the [Yelp v2.0 API](http://www.yelp.com/developers/documentation/v2/overview). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
