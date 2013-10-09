@@ -56,7 +56,7 @@ class YelpAPI(object):
 		"""
 			Clean the parameters by filtering out any parameters that have a None value.
 		"""
-		return dict((k, v) for k, v in kwargs.iteritems() if v is not None)
+		return dict((k, v) for k, v in kwargs.items() if v is not None)
 
 	def search_query(self, **kwargs):
 		"""

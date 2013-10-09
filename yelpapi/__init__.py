@@ -21,4 +21,4 @@
 	THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from yelpapi import YelpAPI
+from .yelpapi import YelpAPI
