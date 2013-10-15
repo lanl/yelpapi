@@ -61,7 +61,7 @@ class YelpAPI(object):
 	def search_query(self, **kwargs):
 		"""
 			This function implements the Yelp Search API (http://www.yelp.com/developers/documentation/v2/search_api).
-			Arbitrary keywords can be passed in, and a list of businesses (each represented as a dict) will be returned.
+			Arbitrary keywords can be passed in, and a dynamically-generated dict of businesses will be returned.
 		"""
 		parameters = YelpAPI._get_clean_parameters(kwargs)
 		response = self._yelp_session.get(SEARCH_API_URL, params=parameters)
