@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from yelpapi import YelpAPI
 import argparse
 
