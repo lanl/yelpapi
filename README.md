@@ -20,11 +20,11 @@ yelpapi is available on PyPI at https://pypi.python.org/pypi/yelpapi.
 
 Install using [pip](http://www.pip-installer.org/):
 
-	pip install yelpapi
+    pip install yelpapi
 
 Install from source:
 
-	python setup.py install
+    python setup.py install
 
 ## USING THIS CODE
 This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the basic idea is very simple:
