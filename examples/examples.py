@@ -26,7 +26,7 @@ for business in response['businesses']:
 print('\n-------------------------------------------------------------------------\n')
 
 """
-    Example search by bounding box and category. See http://www.yelp.com/developers/documentation/category_list for an official
+    Example search by bounding box and category. See http://www.yelp.com/developers/documentation/v2/all_category_list for an official
     list of Yelp categories. The bounding box definition comes from http://isithackday.com/geoplanet-explorer/index.php?woeid=12587707.
 """
 print('***** 5 bike rentals in San Francisco county *****\n%s\n' % "yelp_api.search_query(category_filter='bikerentals', bounds='37.678799,-123.125740|37.832371,-122.356979', limit=5)")
