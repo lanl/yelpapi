@@ -25,15 +25,15 @@ from requests_oauthlib import OAuth1Session
 
 SEARCH_API_URL = 'http://api.yelp.com/v2/search'
 BUSINESS_API_URL = 'http://api.yelp.com/v2/business/%s'
+PHONE_SEARCH_API_URL = 'http://api.yelp.com/v2/phone_search'
 
 
 class YelpAPI(object):
 
     """
-        This class implements the complete Yelp 2.0 API. It offers access to both the Search API and
-        Business API. It is simple and completely extensible since it dynamically takes arguments. This will
-        allow it to continue working even if Yelp changes the spec. The only thing that should cause this to break
-        is if Yelp changes the URL scheme.
+        This class implements the complete Yelp 2.0 API. It offers access to the Search API, Business API, and Phone Search API.
+        It is simple and completely extensible since it dynamically takes arguments. This will allow it to continue working even
+        if Yelp changes the spec. The only thing that should cause this to break is if Yelp changes the URL scheme.
     """
 
     class YelpError(Exception):
@@ -48,7 +48,7 @@ class YelpAPI(object):
 
         """
             This class is used for all API errors. For a list of all possible Yelp API errors, see
-            http://www.yelp.com/developers/documentation/v2/errors.
+            https://www.yelp.com/developers/documentation/v2/errors.
         """
         pass
 
@@ -64,46 +64,57 @@ class YelpAPI(object):
 
     def search_query(self, **kwargs):
         """
-            This function implements the Yelp Search API (http://www.yelp.com/developers/documentation/v2/search_api).
+            This function implements the Yelp Search API (https://www.yelp.com/developers/documentation/v2/search_api).
+
             Arbitrary keywords can be passed in, and a dynamically-generated dict of businesses will be returned.
         """
+        return self._query(SEARCH_API_URL, **kwargs)
+
+    def business_query(self, id, **kwargs):
+        """
+            This function implements the Yelp Business API (https://www.yelp.com/developers/documentation/v2/business).
+
+            A mandatory business ID (parameter 'id') must be provided, as well as any arbitrary keywords allowed by Yelp. A single dict will be
+            returned for the business.
+        """
+        if not id:
+            raise ValueError('A valid business ID parameter ("id") must be provided.')
+
+        return self._query(BUSINESS_API_URL % id, **kwargs)
+
+    def phone_search_query(self, **kwargs):
+        """
+            This function implements the Yelp Phone Search API (https://www.yelp.com/developers/documentation/v2/phone_search).
+
+            A mandatory phone number (parameter 'phone') must be provided, as well as any arbitrary keywords allowed by Yelp. If found, a
+            dynamically-generated dict containing information on the matching business will be returned.
+        """
+        if 'phone' not in kwargs:
+            raise ValueError('A phone number parameter ("phone") must be provided.')
+
+        return self._query(PHONE_SEARCH_API_URL, **kwargs)
+
+    def _query(self, url, **kwargs):
+        """
+            All query methods have the same logic, so don't repeat it! Query the URL, parse the response as JSON, and check for errors. If all
+            goes well, return the parsed JSON.
+        """
         parameters = YelpAPI._get_clean_parameters(kwargs)
-        response = self._yelp_session.get(SEARCH_API_URL, params=parameters)
+        response = self._yelp_session.get(url, params=parameters)
 
         # raise YelpError if Yelp returns invalid JSON or something other than JSON
         try:
             response_json = response.json()
         except ValueError as e:
-            raise self.YelpError(e)
+            raise YelpAPI.YelpError('Unable to parse JSON from Yelp response. This is likely caused by an invalid business ID when using the Business API.')
 
         # Yelp can return one of many different API errors, so check for one of them
-        # possible errors: http://www.yelp.com/developers/documentation/v2/errors
+        # possible errors: https://www.yelp.com/developers/documentation/v2/errors
         if 'error' in response_json:
             if 'field' in response_json['error']:
-                raise self.YelpAPIError(response_json['error']['id'], '%s [field=%s]' % (response_json['error']['text'], response_json['error']['field']))
+                raise YelpAPI.YelpAPIError(response_json['error']['id'], '%s [field=%s]' % (response_json['error']['text'], response_json['error']['field']))
             else:
-                raise self.YelpAPIError(response_json['error']['id'], response_json['error']['text'])
-
-        # we got a good response, so return
-        return response_json
-
-    def business_query(self, id, **kwargs):
-        """
-            Similar to search_query, this function implements the Yelp Business API (http://www.yelp.com/developers/documentation/v2/business).
-            A mandatory business ID must be passed in, as well as any arbitrary keywords allowed by Yelp. A single dict will be returned for the
-            business.
-        """
-        if not id:
-            raise ValueError('A valid business ID must be given.')
-
-        parameters = YelpAPI._get_clean_parameters(kwargs)
-        response = self._yelp_session.get(BUSINESS_API_URL % id, params=parameters)
-
-        # Yelp currently returns a 404 HTML page if an invalid business ID is provided, so check for that
-        try:
-            response_json = response.json()
-        except ValueError:
-            raise self.YelpError('Unable to parse JSON from Yelp response. This is likely caused by an invalid business ID [id=%s].' % id)
+                raise YelpAPI.YelpAPIError(response_json['error']['id'], response_json['error']['text'])
 
         # we got a good response, so return
         return response_json
