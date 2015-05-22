@@ -1,5 +1,8 @@
 # Changes
 
+## 1.3 (2015-05-22)
+* Adding support for the [Phone Search API](https://www.yelp.com/developers/documentation/v2/phone_search).
+
 ## 1.2 (2013-10-08)
 * yelpapi is now fully Python 3+ compliant.
 

@@ -10,7 +10,7 @@ Geoffrey Fairchild
 This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE.txt](LICENSE.txt) file for the exact text of the license. You are obligated to give attribution if you use this code.
 
 ## ABOUT
-yelpapi is a pure Python implementation of the [Yelp v2.0 API](http://www.yelp.com/developers/documentation/v2/overview). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
+yelpapi is a pure Python implementation of the [Yelp v2.0 API](https://www.yelp.com/developers/documentation/v2/overview). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 ## REQUIREMENTS
 This code requires Python 2.7 or higher and [requests_oauthlib](https://github.com/requests/requests-oauthlib).
@@ -34,9 +34,10 @@ from yelpapi import YelpAPI
 yelp_api = YelpAPI(consumer_key, consumer_secret, token, token_secret)
 search_results = yelp_api.search_query(args)
 business_results = yelp_api.business_query(id=business_id, other_args)
+phone_search_results = yelp_api.phone_search_query(phone=phone_number, other_args)
 ```
 
-`args` and `other_args` are parameters that come directly from Yelp's [Search API documentation](http://www.yelp.com/developers/documentation/v2/search_api) and [Business API documentation](http://www.yelp.com/developers/documentation/v2/business). You only provide parameters you care about.
+`args` and `other_args` are parameters that come directly from Yelp's [Search API documentation](https://www.yelp.com/developers/documentation/v2/search_api), [Business API documentation](https://www.yelp.com/developers/documentation/v2/business), and [Phone Search API documentation](https://www.yelp.com/developers/documentation/v2/phone_search). You only provide parameters you care about.
 
 ## DIFFERENCES
 Yelp v2.0 Python implementations:
