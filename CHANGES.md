@@ -1,5 +1,10 @@
 # Changes
 
+## 1.4 (2016-05-10)
+* Use HTTPS for all API calls.
+* Use new string formatter.
+* Remove `YelpError` since the business API now returns a JSON error when given a bad business ID.
+
 ## 1.3 (2015-05-22)
 * Adding support for the [Phone Search API](https://www.yelp.com/developers/documentation/v2/phone_search).
 
