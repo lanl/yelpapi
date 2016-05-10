@@ -23,9 +23,9 @@
 
 from requests_oauthlib import OAuth1Session
 
-SEARCH_API_URL = 'http://api.yelp.com/v2/search'
-BUSINESS_API_URL = 'http://api.yelp.com/v2/business/%s'
-PHONE_SEARCH_API_URL = 'http://api.yelp.com/v2/phone_search'
+SEARCH_API_URL = 'https://api.yelp.com/v2/search'
+BUSINESS_API_URL = 'https://api.yelp.com/v2/business/{}'
+PHONE_SEARCH_API_URL = 'https://api.yelp.com/v2/phone_search'
 
 
 class YelpAPI(object):
@@ -35,14 +35,6 @@ class YelpAPI(object):
         It is simple and completely extensible since it dynamically takes arguments. This will allow it to continue working even
         if Yelp changes the spec. The only thing that should cause this to break is if Yelp changes the URL scheme.
     """
-
-    class YelpError(Exception):
-
-        """
-            This class is used for all non-API errors. For example, this exception will be raised if a non-JSON-parseable
-            response from Yelp is received.
-        """
-        pass
 
     class YelpAPIError(Exception):
 
@@ -80,7 +72,7 @@ class YelpAPI(object):
         if not id:
             raise ValueError('A valid business ID parameter ("id") must be provided.')
 
-        return self._query(BUSINESS_API_URL % id, **kwargs)
+        return self._query(BUSINESS_API_URL.format(id), **kwargs)
 
     def phone_search_query(self, **kwargs):
         """
@@ -101,18 +93,13 @@ class YelpAPI(object):
         """
         parameters = YelpAPI._get_clean_parameters(kwargs)
         response = self._yelp_session.get(url, params=parameters)
-
-        # raise YelpError if Yelp returns invalid JSON or something other than JSON
-        try:
-            response_json = response.json()
-        except ValueError as e:
-            raise YelpAPI.YelpError('Unable to parse JSON from Yelp response. This is likely caused by an invalid business ID when using the Business API.')
+        response_json = response.json() # it shouldn't happen, but this will raise a ValueError if the response isn't JSON
 
         # Yelp can return one of many different API errors, so check for one of them
         # possible errors: https://www.yelp.com/developers/documentation/v2/errors
         if 'error' in response_json:
             if 'field' in response_json['error']:
-                raise YelpAPI.YelpAPIError(response_json['error']['id'], '%s [field=%s]' % (response_json['error']['text'], response_json['error']['field']))
+                raise YelpAPI.YelpAPIError(response_json['error']['id'], '{} [field={}]'.format(response_json['error']['text'], response_json['error']['field']))
             else:
                 raise YelpAPI.YelpAPIError(response_json['error']['id'], response_json['error']['text'])
 

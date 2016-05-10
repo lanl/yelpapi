@@ -75,5 +75,5 @@ print('\n-----------------------------------------------------------------------
 print('***** sample erronious business query *****\n%s\n' % "yelp_api.business_query(id='fake-business')")
 try:
     yelp_api.business_query(id='fake-business')
-except YelpAPI.YelpError as e:
+except YelpAPI.YelpAPIError as e:
     print(e)
