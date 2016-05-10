@@ -42,8 +42,8 @@ phone_search_results = yelp_api.phone_search_query(phone=phone_number, other_arg
 ## DIFFERENCES
 Yelp v2.0 Python implementations:
 
-* [Official Yelp GitHub repo](https://github.com/Yelp/yelp-api/tree/master/v2/python)
+* [Official Yelp Python library](https://github.com/Yelp/yelp-python)
 * [python-yelp](https://github.com/adamhadani/python-yelp)
 * [python-yelp-v2](https://github.com/mathisonian/python-yelp-v2)
 
-yelpapi differs from other implementations in that it is completely dynamic with respect to both the input provided by the programmer and the output provided by Yelp. Most other implementations return the results as instances of pre-defined classes, while yelpapi returns a simply-defined, dynamically-generated `dict`. The benefit here is much smaller and simpler API implementation as well as preparedness for any changes Yelp may make to the API in the future.
+yelpapi differs from other implementations in that it is completely dynamic with respect to both the input provided by the programmer and the output provided by Yelp. Most other implementations return the results as instances of pre-defined classes, while yelpapi returns a simply-defined, dynamically-generated `dict`. The benefit here is much smaller and simpler API implementation (the *entire* implementation is only 120 lines, including comments and whitespace!) as well as preparedness for any changes Yelp may make to the API in the future.
