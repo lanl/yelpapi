@@ -58,9 +58,9 @@ pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
 """
-    Example erronious search query.
+    Example erroneous search query.
 """
-print('***** sample erronious search query *****\n{}\n'.format("yelp_api.search_query(term='ice cream', location='austin, tx', sort=3)"))
+print('***** sample erroneous search query *****\n{}\n'.format("yelp_api.search_query(term='ice cream', location='austin, tx', sort=3)"))
 try:
     # sort can only take on values 0, 1, or 2
     yelp_api.search_query(term='ice cream', location='austin, tx', sort=3)
@@ -70,9 +70,9 @@ except YelpAPI.YelpAPIError as e:
 print('\n-------------------------------------------------------------------------\n')
 
 """
-    Example erronious business query.
+    Example erroneous business query.
 """
-print('***** sample erronious business query *****\n{}\n'.format("yelp_api.business_query(id='fake-business')"))
+print('***** sample erroneous business query *****\n{}\n'.format("yelp_api.business_query(id='fake-business')"))
 try:
     yelp_api.business_query(id='fake-business')
 except YelpAPI.YelpAPIError as e:
