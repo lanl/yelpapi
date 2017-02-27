@@ -40,7 +40,6 @@ phone_search_results = yelp_api.phone_search_query(phone=phone_number, other_arg
 ```
 
 ### METHODS
-
 * [Search API](https://www.yelp.com/developers/documentation/v3/business_search): `search_query(args)`
 * [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone): `phone_search_query(phone=[PHONE], other_args)`
 * [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search): `transaction_search_query(transaction_type=[TRANSACTION_TYPE], other_args)`
