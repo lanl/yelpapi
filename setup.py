@@ -28,9 +28,9 @@ from setuptools import setup
 
 setup(
     name='yelpapi',
-    version='1.4',
-    description='yelpapi is a pure Python implementation of the Yelp v2.0 API.',
-    long_description="""yelpapi is a pure Python implementation of the `Yelp v2.0 API <http://www.yelp.com/developers/documentation/v2/overview>`_. It is simple, fast, and robust to any changes Yelp may make to the API in the future.
+    version='2.0',
+    description='yelpapi is a pure Python implementation of the Yelp Fusion API.',
+    long_description="""yelpapi is a pure Python implementation of the `Yelp Fusion API <https://www.yelp.com/developers/documentation/v3/get_started>`_. It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 For more information on yelpapi, visit the `GitHub project page <https://github.com/gfairchild/yelpapi>`_.""",
     author='Geoffrey Fairchild',
@@ -53,6 +53,7 @@ For more information on yelpapi, visit the `GitHub project page <https://github.
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],

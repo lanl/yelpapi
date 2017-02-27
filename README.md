@@ -10,7 +10,9 @@ Geoffrey Fairchild
 This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE.txt](LICENSE.txt) file for the exact text of the license. You are obligated to give attribution if you use this code.
 
 ## ABOUT
-yelpapi is a pure Python implementation of the [Yelp v2.0 API](https://www.yelp.com/developers/documentation/v2/overview). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
+yelpapi is a pure Python implementation of the [Yelp Fusion API](https://www.yelp.com/developers/documentation/v3/get_started) (aka Yelp v3 API). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
+
+**Note:** yelpapi v1.4 was the last version to support the Yelp v2 API, which is [slowly being deprecated](https://engineeringblog.yelp.com/2017/02/recent-improvements-to-the-fusion-api.html). All developers should migrate to the new Yelp Fusion API as soon as possible.
 
 ## REQUIREMENTS
 This code requires Python 2.7 or higher and [requests_oauthlib](https://github.com/requests/requests-oauthlib).
@@ -27,23 +29,21 @@ Install from source:
     python setup.py install
 
 ## USING THIS CODE
-This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the basic idea is very simple:
+This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the following chunk of code demonstrates use of yelpapi. 
 
 ```python
 from yelpapi import YelpAPI
-yelp_api = YelpAPI(consumer_key, consumer_secret, token, token_secret)
+yelp_api = YelpAPI(client_id, client_secret)
 search_results = yelp_api.search_query(args)
 business_results = yelp_api.business_query(id=business_id, other_args)
 phone_search_results = yelp_api.phone_search_query(phone=phone_number, other_args)
 ```
 
-`args` and `other_args` are parameters that come directly from Yelp's [Search API documentation](https://www.yelp.com/developers/documentation/v2/search_api), [Business API documentation](https://www.yelp.com/developers/documentation/v2/business), and [Phone Search API documentation](https://www.yelp.com/developers/documentation/v2/phone_search). You only provide parameters you care about.
+### METHODS
 
-## DIFFERENCES
-Yelp v2.0 Python implementations:
-
-* [Official Yelp Python library](https://github.com/Yelp/yelp-python)
-* [python-yelp](https://github.com/adamhadani/python-yelp)
-* [python-yelp-v2](https://github.com/mathisonian/python-yelp-v2)
-
-yelpapi differs from other implementations in that it is completely dynamic with respect to both the input provided by the programmer and the output provided by Yelp. Most other implementations return the results as instances of pre-defined classes, while yelpapi returns a simply-defined, dynamically-generated `dict`. The benefit here is much smaller and simpler API implementation (the *entire* implementation is only 107 lines, including comments and whitespace!) as well as preparedness for any changes Yelp may make to the API in the future.
+* [Search API](https://www.yelp.com/developers/documentation/v3/business_search): `search_query(args)`
+* [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone): `phone_search_query(phone=[PHONE], other_args)`
+* [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search): `transaction_search_query(transaction_type=[TRANSACTION_TYPE], other_args)`
+* [Business API](https://www.yelp.com/developers/documentation/v3/business): `business_query(id=[BUSINESS_ID], other_args)`
+* [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews): `reviews_query(id=[BUSINESS_ID], other_args)`
+* [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete): `autocomplete_query(text=[SEARCH_TEXT], other_args)`
