@@ -35,11 +35,9 @@ This API is demonstrated more thoroughly in [examples.py](examples/examples.py),
 from yelpapi import YelpAPI
 yelp_api = YelpAPI(client_id, client_secret)
 search_results = yelp_api.search_query(args)
-business_results = yelp_api.business_query(id=business_id, other_args)
-phone_search_results = yelp_api.phone_search_query(phone=phone_number, other_args)
 ```
 
-### METHODS
+## METHODS
 * [Search API](https://www.yelp.com/developers/documentation/v3/business_search): `search_query(args)`
 * [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone): `phone_search_query(phone=[PHONE], other_args)`
 * [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search): `transaction_search_query(transaction_type=[TRANSACTION_TYPE], other_args)`
