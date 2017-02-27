@@ -29,7 +29,7 @@ Install from source:
     python setup.py install
 
 ## USING THIS CODE
-This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the following chunk of code demonstrates use of yelpapi. 
+This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the following chunk of code demonstrates basic use of yelpapi. 
 
 ```python
 from yelpapi import YelpAPI
