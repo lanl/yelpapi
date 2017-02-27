@@ -35,7 +35,7 @@ REVIEWS_API_URL = 'https://api.yelp.com/v3/businesses/{}/reviews'
 AUTOCOMPLETE_API_URL = 'https://api.yelp.com/v3/autocomplete'
 
 
-class YelpAPI():
+class YelpAPI:
 
     """
         This class implements the complete Yelp Fusion API. It offers access to the following APIs:
