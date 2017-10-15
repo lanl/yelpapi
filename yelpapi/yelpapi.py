@@ -29,6 +29,7 @@ ACCESS_TOKEN_URL = 'https://api.yelp.com/oauth2/token'
 
 SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search'
 PHONE_SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search/phone'
+BUSINESS_MATCH_API_URL = 'https://api.yelp.com/v3/businesses/matches/{}'
 TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
 BUSINESS_API_URL = 'https://api.yelp.com/v3/businesses/{}'
 REVIEWS_API_URL = 'https://api.yelp.com/v3/businesses/{}/reviews'
@@ -81,6 +82,31 @@ class YelpAPI(object):
             raise ValueError('A valid phone number (parameter "phone") must be provided.')
 
         return self._query(PHONE_SEARCH_API_URL, **kwargs)
+
+    def business_match_query(self, match_type='best', **kwargs):
+        """
+            Query the Yelp Business Match API. Visit https://www.yelp.com/developers/documentation/v3/business_match
+            for documentation on the parameters and response body.
+
+            NOTE: Mandatory parameters "name", "city", and "state" must be provided.
+            NOTE: Defaults to match_type using the "best" search method. Can be set to "lookup" for the top 10 results.
+        """
+        if 'name' not in kwargs or not kwargs['name']:
+            raise ValueError('Valid business name (parameter "name") must be provided.')
+
+        if 'city' not in kwargs or not kwargs['city']:
+            raise ValueError('Valid city (parameter "city") must be provided.')
+
+        if 'state' not in kwargs or not kwargs['state']:
+            raise ValueError('Valid state (parameter "state") must be provided.')
+
+        if 'country' not in kwargs or not kwargs['country']:
+            kwargs['country'] = 'US'
+
+        if match_type not in ('best', 'lookup'):
+            raise ValueError('Valid match type(parameter "match_type") must be provided. Accepted values: "best" or "lookup".')
+
+        return self._query(BUSINESS_MATCH_API_URL.format(match_type), **kwargs)
 
     def transaction_search_query(self, transaction_type, **kwargs):
         """
