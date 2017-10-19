@@ -78,7 +78,7 @@ class YelpAPI(object):
 
             NOTE: A mandatory phone number (parameter 'phone') must be provided.
         """
-        if 'phone' not in kwargs or not kwargs['phone']:
+        if not kwargs.get('phone'):
             raise ValueError('A valid phone number (parameter "phone") must be provided.')
 
         return self._query(PHONE_SEARCH_API_URL, **kwargs)
@@ -91,16 +91,16 @@ class YelpAPI(object):
             NOTE: Mandatory parameters "name", "city", and "state" must be provided.
             NOTE: Defaults to match_type using the "best" search method. Can be set to "lookup" for the top 10 results.
         """
-        if 'name' not in kwargs or not kwargs['name']:
+        if not kwargs.get('name'):
             raise ValueError('Valid business name (parameter "name") must be provided.')
 
-        if 'city' not in kwargs or not kwargs['city']:
+        if not kwargs.get('city'):
             raise ValueError('Valid city (parameter "city") must be provided.')
 
-        if 'state' not in kwargs or not kwargs['state']:
+        if not kwargs.get('state'):
             raise ValueError('Valid state (parameter "state") must be provided.')
 
-        if 'country' not in kwargs or not kwargs['country']:
+        if not kwargs.get('country'):
             kwargs['country'] = 'US'
 
         if match_type not in ('best', 'lookup'):
@@ -151,7 +151,7 @@ class YelpAPI(object):
 
             NOTE: Mandatory search text (parameter "text") must be provided.
         """
-        if 'text' not in kwargs or not kwargs['text']:
+        if not kwargs.get('text'):
             raise ValueError('Valid text (parameter "text") must be provided.')
 
         return self._query(AUTOCOMPLETE_API_URL, **kwargs)
