@@ -10,8 +10,8 @@
 
 ## 2.0 (2017-02-27)
 * Implement the new Yelp Fusion API (aka Yelp v3 API). Note that yelpapi v1.4 is the last version to support the Yelp v2 API. [The Yelp v2 API is being deprecated, so all new developers should move to the new Fusion API ASAP.](https://engineeringblog.yelp.com/2017/02/recent-improvements-to-the-fusion-api.html)
-* Use OAuth 2.0 for authentication.
-* Implement new [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search), [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews), and [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete).
+  * Use OAuth 2.0 for authentication.
+  * Implement new [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search), [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews), and [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete).
 
 ## 1.4 (2016-05-10)
 * Use HTTPS for all API calls.
