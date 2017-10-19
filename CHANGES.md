@@ -1,13 +1,17 @@
 # Changes
 
+## 2.1.0 (2017-10-19)
+* Implement new [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match).   
+**NOTE**: This API is currently in beta. Yelp requires your app join the [Yelp Developer Beta Program](https://www.yelp.com/developers/v3/manage_app) to gain access to it.
+
 ## 2.0.1 (2017-02-27)
 * Remove reliance on `ez_setup.py`.
 * Add `setup.cfg` to instruct the build process to build universal wheels.
 
 ## 2.0 (2017-02-27)
 * Implement the new Yelp Fusion API (aka Yelp v3 API). Note that yelpapi v1.4 is the last version to support the Yelp v2 API. [The Yelp v2 API is being deprecated, so all new developers should move to the new Fusion API ASAP.](https://engineeringblog.yelp.com/2017/02/recent-improvements-to-the-fusion-api.html)
-  * Use OAuth 2.0 for authentication.
-  * Implement new [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search), [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews), and [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete).
+* Use OAuth 2.0 for authentication.
+* Implement new [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search), [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews), and [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete).
 
 ## 1.4 (2016-05-10)
 * Use HTTPS for all API calls.
