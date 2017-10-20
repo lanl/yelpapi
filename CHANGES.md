@@ -1,5 +1,9 @@
 # Changes
 
+## 2.1.0 (2017-10-19)
+* Implement new [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match).   
+**NOTE**: This API is currently in beta. Yelp requires your app join the [Yelp Developer Beta Program](https://www.yelp.com/developers/v3/manage_app) to gain access to it.
+
 ## 2.0.1 (2017-02-27)
 * Remove reliance on `ez_setup.py`.
 * Add `setup.cfg` to instruct the build process to build universal wheels.

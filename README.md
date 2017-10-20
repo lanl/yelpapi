@@ -40,6 +40,7 @@ search_results = yelp_api.search_query(args)
 ## METHODS
 * [Search API](https://www.yelp.com/developers/documentation/v3/business_search): `search_query(args)`
 * [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone): `phone_search_query(phone=[PHONE_NUMBER], other_args)`
+* [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match): `business_match_query(args)` (**NOTE**: Use of this API call requires your app join the [Yelp Developer Beta Program](https://www.yelp.com/developers/v3/manage_app))
 * [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search): `transaction_search_query(transaction_type=[TRANSACTION_TYPE], other_args)`
 * [Business API](https://www.yelp.com/developers/documentation/v3/business): `business_query(id=[BUSINESS_ID], other_args)`
 * [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews): `reviews_query(id=[BUSINESS_ID], other_args)`
