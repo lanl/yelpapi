@@ -21,8 +21,8 @@
     THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from requests_oauthlib import OAuth2Session
-from oauthlib.oauth2 import BackendApplicationClient
+
+import requests
 
 
 ACCESS_TOKEN_URL = 'https://api.yelp.com/oauth2/token'
@@ -60,9 +60,12 @@ class YelpAPI(object):
         """
         pass
 
-    def __init__(self, client_id, client_secret):
-        self._yelp_session = OAuth2Session(client=BackendApplicationClient(client_id=client_id))
-        self._yelp_session.fetch_token(token_url=ACCESS_TOKEN_URL, client_id=client_id, client_secret=client_secret)
+    def __init__(self, api_key):
+        ''' Instantiate a YelpAPI object.
+        In: api_key (string) '''
+        self._api_key = api_key
+        self._yelp_session = requests.Session()
+        self._headers = {'Authorization': 'Bearer %s' % self._api_key}
 
     def search_query(self, **kwargs):
         """
@@ -169,7 +172,7 @@ class YelpAPI(object):
             and check for errors. If all goes well, return the parsed JSON.
         """
         parameters = YelpAPI._get_clean_parameters(kwargs)
-        response = self._yelp_session.get(url, params=parameters)
+        response = self._yelp_session.get(url, headers=self._headers, params=parameters)
         response_json = response.json() # it shouldn't happen, but this will raise a ValueError if the response isn't JSON
 
         # Yelp can return one of many different API errors, so check for one of them.
