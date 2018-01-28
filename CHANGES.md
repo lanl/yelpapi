@@ -1,5 +1,9 @@
 # Changes
 
+## 2.2.0 (2018-01-28)
+* Revised to remove token/secret access and instead use API keys. Yelp will move to API keys only in March 2018.
+* API keys (string) are now needed to instantiate a YelpAPI object. 
+
 ## 2.1.0 (2017-10-19)
 * Implement new [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match).   
 **NOTE**: This API is currently in beta. Yelp requires your app join the [Yelp Developer Beta Program](https://www.yelp.com/developers/v3/manage_app) to gain access to it.

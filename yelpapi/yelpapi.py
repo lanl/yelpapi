@@ -21,11 +21,7 @@
     THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-
 import requests
-
-
-ACCESS_TOKEN_URL = 'https://api.yelp.com/oauth2/token'
 
 SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search'
 PHONE_SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search/phone'
@@ -61,8 +57,9 @@ class YelpAPI(object):
         pass
 
     def __init__(self, api_key):
-        ''' Instantiate a YelpAPI object.
-        In: api_key (string) '''
+        """
+            Instantiate a YelpAPI object. An API key from Yelp (string) is required. 
+        """
         self._api_key = api_key
         self._yelp_session = requests.Session()
         self._headers = {'Authorization': 'Bearer %s' % self._api_key}
