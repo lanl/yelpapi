@@ -12,10 +12,8 @@ This software is licensed under the [BSD 3-Clause License](http://opensource.org
 ## ABOUT
 yelpapi is a pure Python implementation of the [Yelp Fusion API](https://www.yelp.com/developers/documentation/v3/get_started) (aka Yelp v3 API). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
-**Note:** yelpapi v1.4 was the last version to support the Yelp v2 API, which is [slowly being deprecated](https://engineeringblog.yelp.com/2017/02/recent-improvements-to-the-fusion-api.html). All developers should migrate to the new Yelp Fusion API as soon as possible.
-
 ## REQUIREMENTS
-This code requires Python 2.7 or higher and [requests_oauthlib](https://github.com/requests/requests-oauthlib).
+This code requires Python 2.7 or higher and [requests](https://github.com/requests/requests).
 
 ## INSTALL
 yelpapi is available on PyPI at https://pypi.python.org/pypi/yelpapi.
@@ -33,7 +31,7 @@ This API is demonstrated more thoroughly in [examples.py](examples/examples.py),
 
 ```python
 from yelpapi import YelpAPI
-yelp_api = YelpAPI(client_id, client_secret)
+yelp_api = YelpAPI(api_key)
 search_results = yelp_api.search_query(args)
 ```
 

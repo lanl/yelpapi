@@ -10,7 +10,7 @@ import argparse
 from pprint import pprint
 
 argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. Visit https://www.yelp.com/developers/v3/manage_app to get the necessary API keys.')
-argparser.add_argument('--api_key', type=str, help='Yelp Fusion API Key')
+argparser.add_argument('api_key', type=str, help='Yelp Fusion API Key')
 args = argparser.parse_args()
 
 yelp_api = YelpAPI(args.api_key)

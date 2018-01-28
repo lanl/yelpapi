@@ -58,11 +58,11 @@ class YelpAPI(object):
 
     def __init__(self, api_key):
         """
-            Instantiate a YelpAPI object. An API key from Yelp (string) is required. 
+            Instantiate a YelpAPI object. An API key from Yelp is required. 
         """
         self._api_key = api_key
         self._yelp_session = requests.Session()
-        self._headers = {'Authorization': 'Bearer %s' % self._api_key}
+        self._headers = {'Authorization': 'Bearer {}'.format(self._api_key)}
 
     def search_query(self, **kwargs):
         """
