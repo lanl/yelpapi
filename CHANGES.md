@@ -2,7 +2,11 @@
 
 ## 2.2.0 (2018-01-28)
 * Revised to remove token/secret access and instead use API keys. Yelp will move to API keys only in March 2018. (courtesy @tamos)
-* An API key (string) is now needed to instantiate a `YelpAPI` object. (courtesy @tamos)
+* An API key is now needed to instantiate a `YelpAPI` object. (courtesy @tamos)
+* Added support for new endpoints:
+  * [Event Lookup API](https://www.yelp.com/developers/documentation/v3/event)
+  * [Event Search API](https://www.yelp.com/developers/documentation/v3/event_search)
+  * [Featured Event API](https://www.yelp.com/developers/documentation/v3/featured_event)
 
 ## 2.1.0 (2017-10-19)
 * Implement new [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match).   

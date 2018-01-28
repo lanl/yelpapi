@@ -53,8 +53,8 @@ print('\n-----------------------------------------------------------------------
     
     Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
 """
-print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA')"))
-response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA')
+print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US')"))
+response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
@@ -63,8 +63,8 @@ print('\n-----------------------------------------------------------------------
     
     Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
 """
-print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA')"))
-response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', match_type='lookup')
+print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US', match_type='lookup')"))
+response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US', match_type='lookup')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
@@ -110,6 +110,39 @@ print('\n-----------------------------------------------------------------------
 """
 print("***** autocomplete results for 'Hambur' in Iowa City *****\n{}\n".format("yelp_api.autocomplete_query(text='Hambur', longitude=-91.5327, latitude=41.6560)"))
 response = yelp_api.autocomplete_query(text='Hambur', longitude=-91.5327, latitude=41.6560)
+pprint(response)
+print('\n-------------------------------------------------------------------------\n')
+
+
+"""
+    Example event search query.
+    
+    Event Search API: https://www.yelp.com/developers/documentation/v3/event_search
+"""
+print("***** event search result *****\n{}\n".format("yelp_api.event_search_query()"))
+response = yelp_api.event_search_query()
+pprint(response)
+print('\n-------------------------------------------------------------------------\n')
+
+
+"""
+    Example event lookup query.
+    
+    Event Lookup API: https://www.yelp.com/developers/documentation/v3/event
+"""
+print("***** event lookup result using previous search's first event *****\n{}\n".format("yelp_api.event_lookup_query(id=response['events'][0]['id'])"))
+response = yelp_api.event_lookup_query(id=response['events'][0]['id'])
+pprint(response)
+print('\n-------------------------------------------------------------------------\n')
+
+
+"""
+    Example featured event query.
+    
+    Featured Event API: https://www.yelp.com/developers/documentation/v3/featured_event
+"""
+print("***** featured event lookup result for New York City, NY *****\n{}\n".format("yelp_api.featured_event_query(location='New York City, NY')"))
+response = yelp_api.featured_event_query(location='New York City, NY')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 

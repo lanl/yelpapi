@@ -30,6 +30,9 @@ TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
 BUSINESS_API_URL = 'https://api.yelp.com/v3/businesses/{}'
 REVIEWS_API_URL = 'https://api.yelp.com/v3/businesses/{}/reviews'
 AUTOCOMPLETE_API_URL = 'https://api.yelp.com/v3/autocomplete'
+EVENT_LOOKUP_API_URL = 'https://api.yelp.com/v3/events/{}'
+EVENT_SEARCH_API_URL = 'https://api.yelp.com/v3/events'
+FEATURED_EVENT_API_URL = 'https://api.yelp.com/v3/events/featured'
 
 
 class YelpAPI(object):
@@ -43,6 +46,9 @@ class YelpAPI(object):
             * Business API - https://www.yelp.com/developers/documentation/v3/business
             * Reviews API - https://www.yelp.com/developers/documentation/v3/business_reviews
             * Autocomplete API - https://www.yelp.com/developers/documentation/v3/autocomplete
+            * Event Lookup API - https://www.yelp.com/developers/documentation/v3/event
+            * Event Search API - https://www.yelp.com/developers/documentation/v3/event_search
+            * Featured Event API - https://www.yelp.com/developers/documentation/v3/featured_event
 
         It is simple and completely extensible since it dynamically takes arguments. This will allow it to continue working even
         if Yelp changes the spec. The only thing that should cause this to break is if Yelp changes the URL scheme.
@@ -66,15 +72,17 @@ class YelpAPI(object):
 
     def search_query(self, **kwargs):
         """
-            Query the Yelp Search API. Visit https://www.yelp.com/developers/documentation/v3/business_search
-            for documentation on the parameters and response body.
+            Query the Yelp Search API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/business_search
         """
         return self._query(SEARCH_API_URL, **kwargs)
 
     def phone_search_query(self, **kwargs):
         """
-            Query the Yelp Phone Search API. Visit https://www.yelp.com/developers/documentation/v3/business_search_phone
-            for documentation on the parameters and response body.
+            Query the Yelp Phone Search API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/business_search_phone
 
             NOTE: A mandatory phone number (parameter 'phone') must be provided.
         """
@@ -85,8 +93,9 @@ class YelpAPI(object):
 
     def business_match_query(self, match_type='best', **kwargs):
         """
-            Query the Yelp Business Match API. Visit https://www.yelp.com/developers/documentation/v3/business_match
-            for documentation on the parameters and response body.
+            Query the Yelp Business Match API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/business_match
 
             NOTE: Mandatory parameters "name", "city", and "state" must be provided.
             NOTE: Defaults to match_type using the "best" search method. Can be set to "lookup" for the top 10 results.
@@ -101,7 +110,7 @@ class YelpAPI(object):
             raise ValueError('Valid state (parameter "state") must be provided.')
 
         if not kwargs.get('country'):
-            kwargs['country'] = 'US'
+            raise ValueError('Valid country (parameter "country") must be provided.')
 
         if match_type not in ('best', 'lookup'):
             raise ValueError('Valid match type(parameter "match_type") must be provided. Accepted values: "best" or "lookup".')
@@ -110,8 +119,9 @@ class YelpAPI(object):
 
     def transaction_search_query(self, transaction_type, **kwargs):
         """
-            Query the Yelp Transaction Search API. Visit https://www.yelp.com/developers/documentation/v3/transactions_search
-            for documentation on the parameters and response body.
+            Query the Yelp Transaction Search API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/transactions_search
             
             NOTE: A mandatory transaction type (parameter "transaction_type") must be provided.
         """
@@ -122,8 +132,9 @@ class YelpAPI(object):
 
     def business_query(self, id, **kwargs):
         """
-            Query the Yelp Business API. Visit https://www.yelp.com/developers/documentation/v3/business
-            for documentation on the parameters and response body.
+            Query the Yelp Business API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/business
 
             NOTE: A mandatory business ID (parameter "id") must be provided.
         """
@@ -134,8 +145,9 @@ class YelpAPI(object):
 
     def reviews_query(self, id, **kwargs):
         """
-            Query the Yelp Reviews API. Visit https://www.yelp.com/developers/documentation/v3/business_reviews
-            for documentation on the parameters and response body.
+            Query the Yelp Reviews API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/business_reviews
 
             NOTE: A mandatory business ID (parameter "id") must be provided.
         """
@@ -146,8 +158,9 @@ class YelpAPI(object):
 
     def autocomplete_query(self, **kwargs):
         """
-            Query the Yelp Autocomplete API. Visit https://www.yelp.com/developers/documentation/v3/autocomplete
-            for documentation on the parameters and response body.
+            Query the Yelp Autocomplete API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/autocomplete
 
             NOTE: Mandatory search text (parameter "text") must be provided.
         """
@@ -155,6 +168,38 @@ class YelpAPI(object):
             raise ValueError('Valid text (parameter "text") must be provided.')
 
         return self._query(AUTOCOMPLETE_API_URL, **kwargs)
+
+    def event_lookup_query(self, id, **kwargs):
+        """
+            Query the Yelp Event Lookup API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/event
+
+            NOTE: Mandatory event ID (parameter "id") must be provided.
+        """
+        if not id:
+            raise ValueError('A valid event ID (parameter "id") must be provided.')
+
+        return self._query(EVENT_LOOKUP_API_URL.format(id), **kwargs)
+
+    def event_search_query(self, **kwargs):
+        """
+            Query the Yelp Event Search API.
+            
+            documentation: https://www.yelp.com/developers/documentation/v3/event_search
+        """
+        return self._query(EVENT_SEARCH_API_URL, **kwargs)
+
+    def featured_event_query(self, **kwargs):
+        """
+            Query the Yelp Featured Event API.
+
+            documentation: https://www.yelp.com/developers/documentation/v3/featured_event
+        """
+        if not kwargs.get('location') and (not kwargs.get('latitude') and not kwargs.get('longitude')):
+            raise ValueError('Valid location (parameter "location") or valid lat/long (parameters "latitude" and "longitude") must be provided.')
+
+        return self._query(FEATURED_EVENT_API_URL, **kwargs)
 
     @staticmethod
     def _get_clean_parameters(kwargs):
@@ -170,7 +215,7 @@ class YelpAPI(object):
         """
         parameters = YelpAPI._get_clean_parameters(kwargs)
         response = self._yelp_session.get(url, headers=self._headers, params=parameters)
-        response_json = response.json() # it shouldn't happen, but this will raise a ValueError if the response isn't JSON
+        response_json = response.json()  # it shouldn't happen, but this will raise a ValueError if the response isn't JSON
 
         # Yelp can return one of many different API errors, so check for one of them.
         # The Yelp Fusion API does not yet have a complete list of errors, but this is on the TODO list; see
