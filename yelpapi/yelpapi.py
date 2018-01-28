@@ -58,7 +58,7 @@ class YelpAPI(object):
 
         """
             This class is used for all API errors. Currently, there is no master list of all possible errors, but
-            there is an open issue on this: https://github.com/Yelp/yelp-fusion/issues/95
+            there is an open issue on this: https://github.com/Yelp/yelp-fusion/issues/95.
         """
         pass
 
@@ -196,9 +196,6 @@ class YelpAPI(object):
 
             documentation: https://www.yelp.com/developers/documentation/v3/featured_event
         """
-        if not kwargs.get('location') and (not kwargs.get('latitude') and not kwargs.get('longitude')):
-            raise ValueError('Valid location (parameter "location") or valid lat/long (parameters "latitude" and "longitude") must be provided.')
-
         return self._query(FEATURED_EVENT_API_URL, **kwargs)
 
     @staticmethod
