@@ -2,7 +2,7 @@
 
 """
     Example call:
-        ./examples.py --client_id="[CLIENT ID]" --client_secret="[CLIENT SECRET]"
+        ./examples.py --api_key="[API Key]"
 """
 
 from yelpapi import YelpAPI
@@ -10,12 +10,10 @@ import argparse
 from pprint import pprint
 
 argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. Visit https://www.yelp.com/developers/v3/manage_app to get the necessary API keys.')
-argparser.add_argument('--client_id', type=str, help='Yelp Fusion API client ID')
-argparser.add_argument('--client_secret', type=str, help='Yelp Fusion API client secret')
+argparser.add_argument('--api_key', type=str, help='Yelp Fusion API Key')
 args = argparser.parse_args()
 
-yelp_api = YelpAPI(args.client_id, args.client_secret)
-
+yelp_api = YelpAPI(args.api_key)
 
 """
     Example search by location text and term. 
