@@ -2,7 +2,7 @@
 
 """
     Example call:
-        ./examples.py --api_key="[API Key]"
+        ./examples.py api_key="[API Key]"
 """
 
 from yelpapi import YelpAPI

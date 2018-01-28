@@ -1,5 +1,8 @@
 # Changes
 
+## 2.2.1 (2018-01-28)
+* Fix a few minor inconsistencies in the code.
+
 ## 2.2.0 (2018-01-28)
 * Revised to remove token/secret access and instead use API keys. Yelp will move to API keys only in March 2018. (courtesy @tamos)
 * An API key is now needed to instantiate a `YelpAPI` object. (courtesy @tamos)
