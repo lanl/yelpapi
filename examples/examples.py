@@ -48,6 +48,7 @@ response = yelp_api.phone_search_query(phone='+13193375512')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
+
 """
     Example business match query with the 'best' type.
     
@@ -57,6 +58,7 @@ print('***** search for business best match *****\n{}\n'.format("yelp_api.busine
 response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
+
 
 """
     Example business match query with the 'lookup' type.
