@@ -36,24 +36,13 @@ search_results = yelp_api.search_query(args)
 ```
 
 ## METHODS
-* [Search API](https://www.yelp.com/developers/documentation/v3/business_search)
-    * `search_query(args)`
-* [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone)
-    * `phone_search_query(phone=[PHONE_NUMBER], other_args)`
-* [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match)
-    * `business_match_query(args)`
-* [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search)
-    * `transaction_search_query(transaction_type=[TRANSACTION_TYPE], other_args)`
-* [Business API](https://www.yelp.com/developers/documentation/v3/business)
-    * `business_query(id=[BUSINESS_ID], other_args)`
-* [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews)
-    * `reviews_query(id=[BUSINESS_ID], other_args)`
-* [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete)
-    * `autocomplete_query(text=[SEARCH_TEXT], other_args)`
-* [Event Lookup API](https://www.yelp.com/developers/documentation/v3/event)
-    * `event_lookup_query(id=[EVENT_ID], other_args)`
-* [Event Search API](https://www.yelp.com/developers/documentation/v3/event_search)
-    * `event_search_query(other_args)`
-* [Featured Event API](https://www.yelp.com/developers/documentation/v3/featured_event)
-    * `featured_event_query(location=[LOCATION], other_args)`
-    * `featured_event_query(latitude=[LATITUDE], longitude=['LONGITUDE'], other_args)`
+* [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete) - `autocomplete_query(...)`
+* [Business API](https://www.yelp.com/developers/documentation/v3/business) - `business_query(...)`
+* [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match) - `business_match_query(...)`
+* [Event Lookup API](https://www.yelp.com/developers/documentation/v3/event) - `event_lookup_query(...)`
+* [Event Search API](https://www.yelp.com/developers/documentation/v3/event_search) - `event_search_query(...)`
+* [Featured Event API](https://www.yelp.com/developers/documentation/v3/featured_event) - `featured_event_query(...)`
+* [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone) - `phone_search_query(...)`
+* [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews) - `reviews_query(...)`
+* [Search API](https://www.yelp.com/developers/documentation/v3/business_search) - `search_query(...)`
+* [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search) - `transaction_search_query(...)`
