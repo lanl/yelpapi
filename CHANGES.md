@@ -1,5 +1,9 @@
 # Changes
 
+## 2.2.2 (2018-01-28)
+* Add better top-level documentation for `YelpAPI`.
+* To avoid wasting API calls on obviously invalid requests, consistently check for parameters required for requests to succeed.
+
 ## 2.2.1 (2018-01-28)
 * Fix a few minor inconsistencies in the code.
 
