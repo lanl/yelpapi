@@ -2,9 +2,9 @@
 
 ## AUTHOR
 Geoffrey Fairchild
-* [http://www.gfairchild.com/](http://www.gfairchild.com/)
+* [https://www.gfairchild.com/](https://www.gfairchild.com/)
 * [https://github.com/gfairchild](https://github.com/gfairchild)
-* [http://www.linkedin.com/in/gfairchild/](http://www.linkedin.com/in/gfairchild/)
+* [https://www.linkedin.com/in/gfairchild/](https://www.linkedin.com/in/gfairchild/)
 
 ## LICENSE
 This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE.txt](LICENSE.txt) file for the exact text of the license. You are obligated to give attribution if you use this code.
