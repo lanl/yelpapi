@@ -81,7 +81,8 @@ class YelpAPI(object):
             optional parameters:
                 * timeout_s - Timeout, in seconds, to set for all API calls. If the
                   the timeout expires before the request completes, then a Timeout
-                  exception will be raised.
+                  exception will be raised. If this is not given, the default is to
+                  block indefinitely.
         """
         self._api_key = api_key
         self._timeout_s = timeout_s
