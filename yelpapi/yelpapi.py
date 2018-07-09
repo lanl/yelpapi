@@ -71,11 +71,20 @@ class YelpAPI(object):
         """
         pass
 
-    def __init__(self, api_key):
+    def __init__(self, api_key, timeout_s=None):
         """
-            Instantiate a YelpAPI object. An API key from Yelp is required. 
+            Instantiate a YelpAPI object. An API key from Yelp is required.
+
+            required parameters:
+                * api_key - Our Yelp API key
+
+            optional parameters:
+                * timeout_s - Timeout, in seconds, to set for all API calls. If the
+                  the timeout expires before the request completes, then a Timeout
+                  exception will be raised.
         """
         self._api_key = api_key
+        self._timeout_s = timeout_s
         self._yelp_session = requests.Session()
         self._headers = {'Authorization': 'Bearer {}'.format(self._api_key)}
 
@@ -255,7 +264,12 @@ class YelpAPI(object):
             and check for errors. If all goes well, return the parsed JSON.
         """
         parameters = YelpAPI._get_clean_parameters(kwargs)
-        response = self._yelp_session.get(url, headers=self._headers, params=parameters)
+        response = self._yelp_session.get(
+            url,
+            headers=self._headers,
+            params=parameters,
+            timeout=self._timeout_s,
+        )
         response_json = response.json()  # shouldn't happen, but this will raise a ValueError if the response isn't JSON
 
         # Yelp can return one of many different API errors, so check for one of them.
