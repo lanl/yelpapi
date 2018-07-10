@@ -1,6 +1,6 @@
 # Changes
 
-## TBD
+## 2.3.0 (TBD)
 * Provided a means to set timeouts to API calls, updated docs. #11
 * Added tests, Travis CI automation
 
