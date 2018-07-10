@@ -105,58 +105,57 @@ class TestYelpAPI:
         exc = e.value
         assert '{}: {}'.format(error_code, error_description) == exc.args[0]
 
+    class TestSearchQuery:
+        def test_location_and_term(self, mock_request, faker, yelp, random_dict):
+            mock_call = mock_request.get(SEARCH_API_URL, json=random_dict)
+            term = faker.word()
+            location = '{}, {}'.format(faker.city(), faker.state_abbr())
+            limit = faker.random_int(1, 10)
+            expect_params = {
+                'term': [term],
+                'location': [location],
+                'sort_by': ['rating'],
+                'limit': [str(limit)],
+            }
 
-class TestSearch:
-    def test_location_and_term(self, mock_request, faker, yelp, random_dict):
-        mock_call = mock_request.get(SEARCH_API_URL, json=random_dict)
-        term = faker.word()
-        location = '{}, {}'.format(faker.city(), faker.state_abbr())
-        limit = faker.random_int(1, 10)
-        expect_params = {
-            'term': [term],
-            'location': [location],
-            'sort_by': ['rating'],
-            'limit': [str(limit)],
-        }
-
-        assert 0 == mock_call.call_count
-
-        resp = yelp.search_query(
-            term=term,
-            location=location,
-            sort_by='rating',
-            limit=limit,
-        )
-
-        assert random_dict == resp
-        assert 1 == mock_call.call_count
-        assert expect_params == mock_call.last_request.qs
-
-    @pytest.mark.parametrize('has_location', [True, False])
-    @pytest.mark.parametrize('has_lat_lng', [True, False])
-    def test_requires_location_or_lat_lng(
-        self,
-        has_location,
-        has_lat_lng,
-        mock_request,
-        faker,
-        yelp,
-    ):
-        mock_call = mock_request.get(SEARCH_API_URL, json={})
-        has_enough_params = has_location or has_lat_lng
-        params = {}
-        if has_location:
-            params['location'] = faker.city()
-        if has_lat_lng:
-            params['latitude'] = faker.latitude()
-            params['longitude'] = faker.longitude()
-
-        assert 0 == mock_call.call_count
-
-        if has_enough_params:
-            yelp.search_query(**params)
-            assert 1 == mock_call.call_count
-        else:
-            with pytest.raises(ValueError):
-                yelp.search_query(**params)
             assert 0 == mock_call.call_count
+
+            resp = yelp.search_query(
+                term=term,
+                location=location,
+                sort_by='rating',
+                limit=limit,
+            )
+
+            assert random_dict == resp
+            assert 1 == mock_call.call_count
+            assert expect_params == mock_call.last_request.qs
+
+        @pytest.mark.parametrize('has_location', [True, False])
+        @pytest.mark.parametrize('has_lat_lng', [True, False])
+        def test_requires_location_or_lat_lng(
+            self,
+            has_location,
+            has_lat_lng,
+            mock_request,
+            faker,
+            yelp,
+        ):
+            mock_call = mock_request.get(SEARCH_API_URL, json={})
+            has_enough_params = has_location or has_lat_lng
+            params = {}
+            if has_location:
+                params['location'] = faker.city()
+            if has_lat_lng:
+                params['latitude'] = faker.latitude()
+                params['longitude'] = faker.longitude()
+
+            assert 0 == mock_call.call_count
+
+            if has_enough_params:
+                yelp.search_query(**params)
+                assert 1 == mock_call.call_count
+            else:
+                with pytest.raises(ValueError):
+                    yelp.search_query(**params)
+                assert 0 == mock_call.call_count
