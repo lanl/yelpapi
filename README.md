@@ -35,6 +35,15 @@ yelp_api = YelpAPI(api_key)
 search_results = yelp_api.search_query(args)
 ```
 
+You can also set timeouts so API calls do not block indefinitely in degraded network
+conditions.
+
+```python
+from yelpapi import YelpAPI
+yelp_api = YelpAPI(api_key, timeout_s=3.0)
+search_results = yelp_api.search_query(args)
+```
+
 ## METHODS
 * [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete) - `autocomplete_query(...)`
 * [Business API](https://www.yelp.com/developers/documentation/v3/business) - `business_query(...)`

@@ -84,8 +84,13 @@ print('\n-----------------------------------------------------------------------
     Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
 """
 print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', "
+                                                                "address1='197 Pomeroy Ave', ",
                                                                 "city='Pismo Beach', state='CA', country='US')"))
-response = yelp_api.business_match_query(name='Splash Cafe', city='Pismo Beach', state='CA', country='US')
+response = yelp_api.business_match_query(name='Splash Cafe',
+                                         address1='197 Pomeroy Ave',
+                                         city='Pismo Beach',
+                                         state='CA',
+                                         country='US')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
@@ -96,8 +101,10 @@ print('\n-----------------------------------------------------------------------
     Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
 """
 print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', "
+                                                                "address1='197 Pomeroy Ave', ",
                                                                 "city='Pismo Beach', state='CA', country='US', match_type='lookup')"))
 response = yelp_api.business_match_query(name='Splash Cafe',
+                                         address1='197 Pomeroy Ave',
                                          city='Pismo Beach',
                                          state='CA',
                                          country='US',
