@@ -1,8 +1,8 @@
 # Changes
 
-## 2.3.0 (TBD)
-* Provided a means to set timeouts to API calls, updated docs. #11
-* Added tests, Travis CI automation
+## 2.3.0 (2018-07-11)
+* Provided a means to set timeouts to API calls. (courtesy @goodspark)
+* Added unit tests, including Travis CI automation. (courtesy @goodspark)
 
 ## 2.2.2 (2018-01-28)
 * Add better top-level documentation for `YelpAPI`.

@@ -61,4 +61,4 @@ target/
 .DS_Store
 
 # PyCharm metadata
-.idea
+.idea/
