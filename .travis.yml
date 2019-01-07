@@ -9,4 +9,4 @@ python:
   - 3.6
   - 3.7
 
-script: tox
+script: pytest -vl --cov
