@@ -102,13 +102,12 @@ print('\n-----------------------------------------------------------------------
 """
 print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', "
                                                                 "address1='197 Pomeroy Ave', ",
-                                                                "city='Pismo Beach', state='CA', country='US', match_type='lookup')"))
+                                                                "city='Pismo Beach', state='CA', country='US')"))
 response = yelp_api.business_match_query(name='Splash Cafe',
                                          address1='197 Pomeroy Ave',
                                          city='Pismo Beach',
                                          state='CA',
-                                         country='US',
-                                         match_type='lookup')
+                                         country='US')
 pprint(response)
 print('\n-------------------------------------------------------------------------\n')
 
