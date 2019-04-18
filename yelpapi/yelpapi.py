@@ -128,6 +128,7 @@ class YelpAPI(object):
                 * city
                 * state
                 * country
+                * address1
 
             match_type is deprecated since april 1, 2019.
         """
@@ -142,6 +143,9 @@ class YelpAPI(object):
 
         if not kwargs.get('country'):
             raise ValueError('Valid country (parameter "country") must be provided.')
+
+        if not kwargs.get('address1'):
+            raise ValueError('Valid address (parameter "address1") must be provided.')
 
         return self._query(BUSINESS_MATCH_API_URL, **kwargs)
 
