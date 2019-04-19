@@ -25,7 +25,7 @@ import requests
 
 AUTOCOMPLETE_API_URL = 'https://api.yelp.com/v3/autocomplete'
 BUSINESS_API_URL = 'https://api.yelp.com/v3/businesses/{}'
-BUSINESS_MATCH_API_URL = 'https://api.yelp.com/v3/businesses/matches/{}'
+BUSINESS_MATCH_API_URL = 'https://api.yelp.com/v3/businesses/matches'
 EVENT_LOOKUP_API_URL = 'https://api.yelp.com/v3/events/{}'
 EVENT_SEARCH_API_URL = 'https://api.yelp.com/v3/events'
 FEATURED_EVENT_API_URL = 'https://api.yelp.com/v3/events/featured'
@@ -117,7 +117,7 @@ class YelpAPI(object):
 
         return self._query(BUSINESS_API_URL.format(id), **kwargs)
 
-    def business_match_query(self, match_type='best', **kwargs):
+    def business_match_query(self, **kwargs):
         """
             Query the Yelp Business Match API.
             
@@ -128,6 +128,9 @@ class YelpAPI(object):
                 * city
                 * state
                 * country
+                * address1
+
+            match_type is deprecated since april 1, 2019.
         """
         if not kwargs.get('name'):
             raise ValueError('Valid business name (parameter "name") must be provided.')
@@ -141,11 +144,10 @@ class YelpAPI(object):
         if not kwargs.get('country'):
             raise ValueError('Valid country (parameter "country") must be provided.')
 
-        if match_type not in {'best', 'lookup'}:
-            raise ValueError('Valid match type (parameter "match_type") must be provided. Accepted values: "best" or '
-                             '"lookup".')
+        if not kwargs.get('address1'):
+            raise ValueError('Valid address (parameter "address1") must be provided.')
 
-        return self._query(BUSINESS_MATCH_API_URL.format(match_type), **kwargs)
+        return self._query(BUSINESS_MATCH_API_URL, **kwargs)
 
     def event_lookup_query(self, id, **kwargs):
         """
