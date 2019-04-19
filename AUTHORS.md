@@ -12,3 +12,4 @@ Geoffrey Fairchild
 Sorted by date of first contribution:
 
 * [goodspark](https://github.com/goodspark)
+* [davebulaval](https://github.com/davebulaval)
