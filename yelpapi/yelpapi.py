@@ -130,7 +130,7 @@ class YelpAPI(object):
                 * country
                 * address1
 
-            match_type is deprecated since april 1, 2019.
+            NOTE: `match_type` is deprecated since April 1, 2019.
         """
         if not kwargs.get('name'):
             raise ValueError('Valid business name (parameter "name") must be provided.')
