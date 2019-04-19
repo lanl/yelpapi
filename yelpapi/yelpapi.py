@@ -35,7 +35,7 @@ SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search'
 TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
 
 
-class YelpAPI(object):
+class YelpAPI:
 
     """
         This class implements the complete Yelp Fusion API. It offers access to the following APIs:

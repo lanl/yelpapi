@@ -3,6 +3,7 @@
 ## 2.4.0 (2019-04-19)
 * `match_type` parameter for the business match endpoint was deprecated on April 1, 2019 (see [Yelp's changelog](https://www.yelp.com/developers/v3/changelog)). (courtesy @davebulaval)
 * Added a check to ensure a required parameter, `address1`, is provided when using the business match endpoint. (courtesy @davebulaval)
+* Support for Python versions <3.4 is removed (i.e., this no longer works with Python 2.7). This is due to some dependencies that also have abandoned Python 2 support.
 
 ## 2.3.0 (2018-07-11)
 * Provided a means to set timeouts to API calls. (courtesy @goodspark)
