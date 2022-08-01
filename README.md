@@ -1,6 +1,6 @@
 # yelpapi
 
-[![Build Status](https://travis-ci.org/gfairchild/yelpapi.svg?branch=master)](https://travis-ci.org/gfairchild/yelpapi)
+[![Build Status](https://app.travis-ci.com/lanl/yelpapi.svg?branch=master)](https://app.travis-ci.com/lanl/yelpapi)
 
 ## AUTHOR
 Geoffrey Fairchild
