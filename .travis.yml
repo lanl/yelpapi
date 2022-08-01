@@ -8,4 +8,7 @@ python:
   - 3.9
   - 3.10
 
+before_install:
+  - pip install --upgrade pip setuptools wheel
+
 script: pytest -vl --cov
