@@ -1,5 +1,10 @@
 # Changes
 
+## 2.4.1 (2022-08-01)
+* Dropping EOL Python versions, adding newly-supported versions.
+* Updating dependencies in [`requirements.txt`](requirements.txt).
+* Updating project URL (moved from [@gfairchild](https://github.com/gfairchild)'s personal namespace to [@lanl](https://github.com/lanl)'s namespace).
+
 ## 2.4.0 (2019-04-19)
 * `match_type` parameter for the business match endpoint was deprecated on April 1, 2019 (see [Yelp's changelog](https://www.yelp.com/developers/v3/changelog)). (courtesy @davebulaval)
 * Added a check to ensure a required parameter, `address1`, is provided when using the business match endpoint. (courtesy @davebulaval)
