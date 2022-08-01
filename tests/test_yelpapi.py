@@ -20,7 +20,7 @@ def yelp(api_key):
 @pytest.fixture
 def random_dict(faker):
     """ A random dictionary that's JSON serializable """
-    return faker.pydict(10, True, 'str', 'int', 'float', 'list', 'dict')
+    return faker.pydict(10, True, value_types=['str', 'int', 'float', 'list', 'dict'])
 
 
 class TestYelpAPI:
