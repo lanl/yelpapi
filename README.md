@@ -12,7 +12,7 @@ yelpapi is a pure Python implementation of the [Yelp Fusion API](https://www.yel
 This code requires Python 3.7 or higher and [requests](https://github.com/requests/requests).
 
 ## INSTALL
-yelpapi is available on PyPI at https://pypi.python.org/pypi/yelpapi.
+yelpapi is available on PyPI at https://pypi.org/project/yelpapi/.
 
 Install using [pip](http://www.pip-installer.org/):
 
