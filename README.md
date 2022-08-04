@@ -39,7 +39,7 @@ with YelpAPI(api_key, timeout_s=3.0) as yelpapi:
     search_results = yelp_api.search_query(args)
 ```
 
-You should be sure to close the underlying [`requests.Session`](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object when all API interactions are complete. The above examples demonstrate using the class as a context manager (this is the preferred way of using the `YelpAPI` class), but you can also manually close it like this if a context manager won't work for your use case:
+Under the covers, this module uses a [`requests.Session`](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object for issuing all API calls, which offers potentially significant performance benefits over issuing separate API calls outside of a session. You should be sure to close the underlying session when all API interactions are complete. The above examples demonstrate using the class as a context manager, which will automatically close the connection when you're done and is the preferred way of using the class, but you can also manually close it like this if a context manager won't work for your use case:
 
 ```python
 from yelpapi import YelpAPI
