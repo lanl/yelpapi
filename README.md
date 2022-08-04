@@ -27,17 +27,27 @@ This API is demonstrated more thoroughly in [examples.py](examples/examples.py),
 
 ```python
 from yelpapi import YelpAPI
-yelp_api = YelpAPI(api_key)
-search_results = yelp_api.search_query(args)
+with YelpAPI(api_key) as yelp_api:
+    search_results = yelp_api.search_query(args)
 ```
 
-You can also set timeouts so API calls do not block indefinitely in degraded network
-conditions.
+You can also set timeouts so API calls do not block indefinitely in degraded network conditions.
 
 ```python
 from yelpapi import YelpAPI
-yelp_api = YelpAPI(api_key, timeout_s=3.0)
-search_results = yelp_api.search_query(args)
+with YelpAPI(api_key, timeout_s=3.0) as yelpapi:
+    search_results = yelp_api.search_query(args)
+```
+
+You should be sure to close the underlying [`requests.Session`](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object when all API interactions are complete. The above examples demonstrate using the class as a context manager (this is the preferred way of using the `YelpAPI` class), but you can also manually close it like this if a context manager won't work for your use case:
+
+```python
+from yelpapi import YelpAPI
+try:
+    yelp_api = YelpAPI(api_key)
+    search_results = yelp_api.search_query(args)
+finally:
+    yelp_api.close()
 ```
 
 ## METHODS

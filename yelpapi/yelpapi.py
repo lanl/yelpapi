@@ -61,6 +61,11 @@ class YelpAPI:
         are passed via `**kwargs`. Some parameters are required, and others are optional. To avoid unnecessarily using
         precious API calls, each method explicitly checks for parameters that are required in order for the query to
         succeed before issuing the call.
+
+        This class will create and use a single `requests.Session` object for all API calls, which will provide a nice
+        performance boost with many calls. To avoid keeping unnecessary connections open, you should be sure to close
+        the Session once all Yelp API interactions are complete. This can be done manully by calling close() or by
+        using it as context manager.
     """
 
     class YelpAPIError(Exception):
@@ -88,6 +93,18 @@ class YelpAPI:
         self._timeout_s = timeout_s
         self._yelp_session = requests.Session()
         self._headers = {'Authorization': 'Bearer {}'.format(self._api_key)}
+
+    def close(self):
+        """
+            When the user is done interacting with the API, self.close() should be called to close the Session.
+        """
+        self._yelp_session.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
 
     def autocomplete_query(self, **kwargs):
         """
