@@ -35,7 +35,7 @@ You can also set timeouts so API calls do not block indefinitely in degraded net
 
 ```python
 from yelpapi import YelpAPI
-with YelpAPI(api_key, timeout_s=3.0) as yelpapi:
+with YelpAPI(api_key, timeout_s=3.0) as yelp_api:
     search_results = yelp_api.search_query(args)
 ```
 
