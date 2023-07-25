@@ -1,5 +1,5 @@
 attrs==22.1.0
-certifi==2022.12.7
+certifi==2023.7.22
 charset-normalizer==2.1.0
 coverage==6.4.2
 Faker==13.15.1
