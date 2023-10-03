@@ -18,5 +18,5 @@ requests-mock==1.9.3
 six==1.16.0
 tomli==2.0.1
 typing_extensions==4.3.0
-urllib3==1.26.11
+urllib3==1.26.17
 zipp==3.8.1
