@@ -1,5 +1,8 @@
 # Changes
 
+## 2.5.1 (2023-10-10)
+* Raise [`HTTPError`](https://requests.readthedocs.io/en/latest/api/#requests.HTTPError) if one occurs (PR #25).
+
 ## 2.5.0 (2022-08-04)
 * Implemented new `close()` method to close the `requests.Session` object we use for performant API interactions. This can also be used as a context manager (this is the preferred way).
     * Clarified [`README.md`](README.md) to make it clear that the user should always be sure to close the connection.
