@@ -9,7 +9,7 @@ This software is licensed under the [BSD 3-Clause License](http://opensource.org
 yelpapi is a pure Python implementation of the [Yelp Fusion API](https://www.yelp.com/developers/documentation/v3/get_started) (aka Yelp v3 API). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 ## REQUIREMENTS
-This code requires Python 3.7 or higher and [requests](https://github.com/requests/requests).
+This code requires Python 3.8 or higher and [requests](https://github.com/requests/requests).
 
 ## INSTALL
 yelpapi is available on PyPI at https://pypi.org/project/yelpapi/.
