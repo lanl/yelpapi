@@ -290,7 +290,7 @@ class YelpAPI:
             params=parameters,
             timeout=self._timeout_s,
         )
-        response.raise_for_status()  # will raise error if not error status code received: https://requests.readthedocs.io/en/latest/api/#requests.Response.raise_for_status
+        response.raise_for_status()  # will raise error if error status code received: https://requests.readthedocs.io/en/latest/api/#requests.Response.raise_for_status
 
         response_json = response.json()  # shouldn't happen, but this will raise a ValueError if the response isn't JSON
 
