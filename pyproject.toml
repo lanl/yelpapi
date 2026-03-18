@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yelpapi"
+version = "2.5.1"
+description = "yelpapi is a pure Python implementation of the Yelp Fusion API."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Geoffrey Fairchild", email = "mail@gfairchild.com"},
+]
+requires-python = ">=3.9"
+dependencies = [
+    "requests",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+dev = [
+    "Faker",
+    "pytest",
+    "pytest-cov",
+    "requests-mock",
+]
+
+[project.urls]
+Homepage = "https://github.com/lanl/yelpapi"
+
+[tool.pytest.ini_options]
+addopts = "-vl --cov"
