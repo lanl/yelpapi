@@ -25,8 +25,16 @@ This is a thin Python wrapper around the [Yelp Fusion API](https://docs.develope
 
 **Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change.
 
-**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which strips `None`-valued kwargs before issuing the GET request via a shared `requests.Session`. Errors from Yelp's API (returned as JSON with an `error` key) are raised as `YelpAPI.YelpAPIError`.
+**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which strips `None`-valued kwargs before issuing the GET request via a shared `requests.Session`. Errors from Yelp's API (returned as JSON with an `error` key) are raised as `YelpAPI.YelpAPIError`. Methods that require a location share a `_require_location_or_lat_lng()` helper.
 
 **Session management:** A single `requests.Session` is reused for all calls (performance benefit). Users should close it via context manager (`with YelpAPI(...) as api`) or explicitly via `api.close()`.
 
 **Tests** use `requests-mock` (via the `mock_request` autouse fixture in `conftest.py`) to intercept HTTP calls, and `Faker` for generating random test data. No real API calls are made in tests.
+
+## Releasing
+
+Bump the version in `pyproject.toml`, update `CHANGES.md`, then push an annotated tag. The `publish.yml` GitHub Actions workflow will build and publish to PyPI automatically:
+
+```
+git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z
+```
