@@ -21,6 +21,11 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+from __future__ import annotations
+
+from types import TracebackType
+from typing import Any
+
 import requests
 
 AUTOCOMPLETE_API_URL = 'https://api.yelp.com/v3/autocomplete'
@@ -74,7 +79,7 @@ class YelpAPI:
         """
         pass
 
-    def __init__(self, api_key, timeout_s=None):
+    def __init__(self, api_key: str, timeout_s: float | None = None) -> None:
         """
             Instantiate a YelpAPI object. An API key from Yelp is required.
 
@@ -92,19 +97,24 @@ class YelpAPI:
         self._yelp_session = requests.Session()
         self._headers = {'Authorization': f'Bearer {self._api_key}'}
 
-    def close(self):
+    def close(self) -> None:
         """
             When the user is done interacting with the API, self.close() should be called to close the Session.
         """
         self._yelp_session.close()
 
-    def __enter__(self):
+    def __enter__(self) -> YelpAPI:
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_value: BaseException | None,
+        traceback: TracebackType | None,
+    ) -> None:
         self.close()
 
-    def autocomplete_query(self, **kwargs):
+    def autocomplete_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Autocomplete API.
 
@@ -118,7 +128,7 @@ class YelpAPI:
 
         return self._query(AUTOCOMPLETE_API_URL, **kwargs)
 
-    def business_query(self, id, **kwargs):
+    def business_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Business API.
 
@@ -132,7 +142,7 @@ class YelpAPI:
 
         return self._query(BUSINESS_API_URL.format(id), **kwargs)
 
-    def business_match_query(self, **kwargs):
+    def business_match_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Business Match API.
 
@@ -164,7 +174,7 @@ class YelpAPI:
 
         return self._query(BUSINESS_MATCH_API_URL, **kwargs)
 
-    def event_lookup_query(self, id, **kwargs):
+    def event_lookup_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Event Lookup API.
 
@@ -178,7 +188,7 @@ class YelpAPI:
 
         return self._query(EVENT_LOOKUP_API_URL.format(id), **kwargs)
 
-    def event_search_query(self, **kwargs):
+    def event_search_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Event Search API.
 
@@ -186,7 +196,7 @@ class YelpAPI:
         """
         return self._query(EVENT_SEARCH_API_URL, **kwargs)
 
-    def featured_event_query(self, **kwargs):
+    def featured_event_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Featured Event API.
 
@@ -203,7 +213,7 @@ class YelpAPI:
 
         return self._query(FEATURED_EVENT_API_URL, **kwargs)
 
-    def phone_search_query(self, **kwargs):
+    def phone_search_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Phone Search API.
 
@@ -217,7 +227,7 @@ class YelpAPI:
 
         return self._query(PHONE_SEARCH_API_URL, **kwargs)
 
-    def reviews_query(self, id, **kwargs):
+    def reviews_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Reviews API.
 
@@ -231,7 +241,7 @@ class YelpAPI:
 
         return self._query(REVIEWS_API_URL.format(id), **kwargs)
 
-    def search_query(self, **kwargs):
+    def search_query(self, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Search API.
 
@@ -248,7 +258,7 @@ class YelpAPI:
 
         return self._query(SEARCH_API_URL, **kwargs)
 
-    def transaction_search_query(self, transaction_type, **kwargs):
+    def transaction_search_query(self, transaction_type: str, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Transaction Search API.
 
@@ -270,13 +280,13 @@ class YelpAPI:
         return self._query(TRANSACTION_SEARCH_API_URL.format(transaction_type), **kwargs)
 
     @staticmethod
-    def _get_clean_parameters(kwargs):
+    def _get_clean_parameters(kwargs: dict[str, Any]) -> dict[str, Any]:
         """
             Clean the parameters by filtering out any parameters that have a None value.
         """
         return {k: v for k, v in kwargs.items() if v is not None}
 
-    def _query(self, url, **kwargs):
+    def _query(self, url: str, **kwargs: Any) -> dict[str, Any]:
         """
             All query methods have the same logic, so don't repeat it! Query the URL, parse the response as JSON,
             and check for errors. If all goes well, return the parsed JSON.
