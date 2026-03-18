@@ -117,9 +117,10 @@ class TestAutocompleteQuery:
 
 
 class TestBusinessQuery:
-    def test_requires_id(self, yelp):
+    @pytest.mark.parametrize('invalid_id', [None, ''])
+    def test_requires_id(self, yelp, invalid_id):
         with pytest.raises(ValueError):
-            yelp.business_query(None)
+            yelp.business_query(invalid_id)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         business_id = faker.pystr()
@@ -156,9 +157,10 @@ class TestBusinessMatchQuery:
 
 
 class TestEventLookupQuery:
-    def test_requires_id(self, yelp):
+    @pytest.mark.parametrize('invalid_id', [None, ''])
+    def test_requires_id(self, yelp, invalid_id):
         with pytest.raises(ValueError):
-            yelp.event_lookup_query(None)
+            yelp.event_lookup_query(invalid_id)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         event_id = faker.pystr()
@@ -197,9 +199,10 @@ class TestPhoneSearchQuery:
 
 
 class TestReviewsQuery:
-    def test_requires_id(self, yelp):
+    @pytest.mark.parametrize('invalid_id', [None, ''])
+    def test_requires_id(self, yelp, invalid_id):
         with pytest.raises(ValueError):
-            yelp.reviews_query(None)
+            yelp.reviews_query(invalid_id)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         business_id = faker.pystr()
@@ -231,9 +234,10 @@ class TestSearchQuery:
 
 
 class TestTransactionSearchQuery:
-    def test_requires_transaction_type(self, yelp, faker):
+    @pytest.mark.parametrize('invalid_type', [None, ''])
+    def test_requires_transaction_type(self, yelp, faker, invalid_type):
         with pytest.raises(ValueError):
-            yelp.transaction_search_query(None, location=faker.city())
+            yelp.transaction_search_query(invalid_type, location=faker.city())
 
     def test_requires_location_or_lat_lng(self, yelp, faker):
         with pytest.raises(ValueError):
