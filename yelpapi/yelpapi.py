@@ -279,19 +279,12 @@ class YelpAPI:
 
         return self._query(TRANSACTION_SEARCH_API_URL.format(transaction_type), **kwargs)
 
-    @staticmethod
-    def _get_clean_parameters(kwargs: dict[str, Any]) -> dict[str, Any]:
-        """
-            Clean the parameters by filtering out any parameters that have a None value.
-        """
-        return {k: v for k, v in kwargs.items() if v is not None}
-
     def _query(self, url: str, **kwargs: Any) -> dict[str, Any]:
         """
             All query methods have the same logic, so don't repeat it! Query the URL, parse the response as JSON,
             and check for errors. If all goes well, return the parsed JSON.
         """
-        parameters = YelpAPI._get_clean_parameters(kwargs)
+        parameters = {k: v for k, v in kwargs.items() if v is not None}
         response = self._yelp_session.get(
             url,
             headers=self._headers,
