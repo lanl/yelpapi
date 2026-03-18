@@ -79,7 +79,7 @@ class YelpAPI:
         This class will create and use a single `requests.Session` object for all API calls, which will provide a nice
         performance boost with many calls. To avoid keeping unnecessary connections open, you should be sure to close
         the Session once all Yelp API interactions are complete. This can be done manully by calling close() or by
-        using it as context manager.
+        using it as a context manager.
     """
 
     class YelpAPIError(Exception):
@@ -102,10 +102,9 @@ class YelpAPI:
                   exception will be raised. If this is not given, the default is to
                   block indefinitely.
         """
-        self._api_key = api_key
         self._timeout_s = timeout_s
         self._yelp_session = requests.Session()
-        self._headers = {'Authorization': f'Bearer {self._api_key}'}
+        self._headers = {'Authorization': f'Bearer {api_key}'}
 
     def close(self) -> None:
         """
@@ -274,9 +273,7 @@ class YelpAPI:
                     * location - text specifying a location to search for
                     * latitude and longitude
         """
-        if not kwargs.get('location') and (not kwargs.get('latitude') or not kwargs.get('longitude')):
-            raise ValueError('A valid location (parameter "location") or latitude/longitude combination '
-                             '(parameters "latitude" and "longitude") must be provided.')
+        self._require_location_or_lat_lng(kwargs)
 
         return self._query(FEATURED_EVENT_API_URL, **kwargs)
 
@@ -335,9 +332,7 @@ class YelpAPI:
                     * location - text specifying a location to search for
                     * latitude and longitude
         """
-        if not kwargs.get('location') and (not kwargs.get('latitude') or not kwargs.get('longitude')):
-            raise ValueError('A valid location (parameter "location") or latitude/longitude combination '
-                             '(parameters "latitude" and "longitude") must be provided.')
+        self._require_location_or_lat_lng(kwargs)
 
         return self._query(SEARCH_API_URL, **kwargs)
 
@@ -356,11 +351,14 @@ class YelpAPI:
         if not transaction_type:
             raise ValueError('A valid transaction type (parameter "transaction_type") must be provided.')
 
+        self._require_location_or_lat_lng(kwargs)
+
+        return self._query(TRANSACTION_SEARCH_API_URL.format(transaction_type), **kwargs)
+
+    def _require_location_or_lat_lng(self, kwargs: dict[str, Any]) -> None:
         if not kwargs.get('location') and (not kwargs.get('latitude') or not kwargs.get('longitude')):
             raise ValueError('A valid location (parameter "location") or latitude/longitude combination '
                              '(parameters "latitude" and "longitude") must be provided.')
-
-        return self._query(TRANSACTION_SEARCH_API_URL.format(transaction_type), **kwargs)
 
     def _query(self, url: str, **kwargs: Any) -> dict[str, Any]:
         """
