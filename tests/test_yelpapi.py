@@ -102,6 +102,10 @@ class TestYelpAPI:
         with pytest.raises(requests.exceptions.HTTPError):
             yelp._query(url)
 
+    def test_close(self, api_key):
+        yelp = YelpAPI(api_key)
+        yelp.close()
+
     def test_context_manager(self, api_key):
         with patch.object(YelpAPI, 'close') as mock_close:
             with YelpAPI(api_key) as api:
