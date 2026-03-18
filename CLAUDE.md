@@ -1,0 +1,37 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+Run tests:
+```
+pytest tests/
+```
+
+Run a single test:
+```
+pytest tests/test_yelpapi.py::TestYelpAPI::test_calls_api
+```
+
+Run tests with coverage:
+```
+pytest --cov=yelpapi tests/
+```
+
+## Architecture
+
+This is a thin Python wrapper around the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). The entire implementation lives in `yelpapi/yelpapi.py` as a single `YelpAPI` class.
+
+**Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change.
+
+**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which calls `_get_clean_parameters()` to strip `None` values before issuing the GET request via a shared `requests.Session`. Errors from Yelp's API (returned as JSON with an `error` key) are raised as `YelpAPI.YelpAPIError`.
+
+**Session management:** A single `requests.Session` is reused for all calls (performance benefit). Users should close it via context manager (`with YelpAPI(...) as api`) or explicitly via `api.close()`.
+
+**Tests** use `requests-mock` (via the `mock_request` autouse fixture in `conftest.py`) to intercept HTTP calls, and `Faker` for generating random test data. No real API calls are made in tests.

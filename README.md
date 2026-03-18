@@ -1,6 +1,6 @@
 # yelpapi
 
-[![Build Status](https://app.travis-ci.com/lanl/yelpapi.svg?branch=master)](https://app.travis-ci.com/lanl/yelpapi)
+[![Tests](https://github.com/lanl/yelpapi/actions/workflows/tests.yml/badge.svg)](https://github.com/lanl/yelpapi/actions/workflows/tests.yml)
 
 ## LICENSE
 This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE](LICENSE) file for the exact text of the license. You are obligated to give attribution if you use this code.
@@ -9,7 +9,7 @@ This software is licensed under the [BSD 3-Clause License](http://opensource.org
 yelpapi is a pure Python implementation of the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 ## REQUIREMENTS
-This code requires Python 3.8 or higher and [requests](https://github.com/requests/requests).
+This code requires Python 3.9 or higher and [requests](https://github.com/requests/requests).
 
 ## INSTALL
 yelpapi is available on PyPI at https://pypi.org/project/yelpapi/.
