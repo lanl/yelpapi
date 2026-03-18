@@ -23,200 +23,143 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-"""
-    Example call:
-        ./examples.py "[API Key]"
-"""
+# Example call:
+#     ./examples.py "[API Key]"
 
-from yelpapi import YelpAPI
 import argparse
 from pprint import pprint
 
-argparser = argparse.ArgumentParser(description='Example Yelp queries using yelpapi. '
-                                                'Visit https://www.yelp.com/developers/v3/manage_app to get the '
-                                                'necessary API keys.')
+from yelpapi import YelpAPI
+
+SEP = '\n-------------------------------------------------------------------------\n'
+
+argparser = argparse.ArgumentParser(
+    description='Example Yelp queries using yelpapi. '
+                'Visit https://docs.developer.yelp.com/docs/fusion-intro to get the necessary API keys.',
+)
 argparser.add_argument('api_key', type=str, help='Yelp Fusion API Key')
 args = argparser.parse_args()
 
 with YelpAPI(args.api_key) as yelp_api:
-    """
-        Example search by location text and term. 
-        
-        Search API: https://www.yelp.com/developers/documentation/v3/business_search
-    """
-    print('***** 5 best rated ice cream places in Austin, TX *****\n{}\n'.format("yelp_api.search_query(term='ice cream', "
-                                                                                 "location='austin, tx', sort_by='rating', "
-                                                                                 "limit=5)"))
+    # Search API: https://docs.developer.yelp.com/reference/v3_business_search
+    print("***** 5 best rated ice cream places in Austin, TX *****\nyelp_api.search_query(term='ice cream', location='austin, tx', sort_by='rating', limit=5)\n")
     response = yelp_api.search_query(term='ice cream', location='austin, tx', sort_by='rating', limit=5)
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example search by centroid and category.
-        
-        all Yelp categories: https://www.yelp.com/developers/documentation/v3/all_category_list
-        centroid: https://www.flickr.com/places/info/2487956
-    """
-    print('***** 5 bike rentals in San Francisco *****\n{}\n'.format("yelp_api.search_query(categories='bikerentals', "
-                                                                     "longitude=-122.4392, latitude=37.7474, limit=5)"))
+    # Search API (by coordinates): https://docs.developer.yelp.com/reference/v3_business_search
+    # all Yelp categories: https://docs.developer.yelp.com/docs/resources-categories
+    # centroid: https://www.flickr.com/places/info/2487956
+    print("***** 5 bike rentals in San Francisco *****\nyelp_api.search_query(categories='bikerentals', longitude=-122.4392, latitude=37.7474, limit=5)\n")
     response = yelp_api.search_query(categories='bikerentals', longitude=-122.4392, latitude=37.7474, limit=5)
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example phone search query.
-        
-        Phone Search API: https://www.yelp.com/developers/documentation/v3/business_search_phone
-    """
-    print('***** search for business by phone number *****\n{}\n'.format("yelp_api.phone_search_query("
-                                                                         "phone='+13193375512')"))
+    # Phone Search API: https://docs.developer.yelp.com/reference/v3_business_phone_search
+    print("***** search for business by phone number *****\nyelp_api.phone_search_query(phone='+13193375512')\n")
     response = yelp_api.phone_search_query(phone='+13193375512')
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example business match query with the 'best' type.
-        
-        Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
-    """
-    print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', "
-                                                                    "address1='197 Pomeroy Ave', ",
-                                                                    "city='Pismo Beach', state='CA', country='US')"))
-    response = yelp_api.business_match_query(name='Splash Cafe',
-                                             address1='197 Pomeroy Ave',
-                                             city='Pismo Beach',
-                                             state='CA',
-                                             country='US')
+    # Business Match API: https://docs.developer.yelp.com/reference/v3_business_match
+    print("***** search for business match *****\nyelp_api.business_match_query(name='Splash Cafe', address1='197 Pomeroy Ave', city='Pismo Beach', state='CA', country='US')\n")
+    response = yelp_api.business_match_query(
+        name='Splash Cafe',
+        address1='197 Pomeroy Ave',
+        city='Pismo Beach',
+        state='CA',
+        country='US',
+    )
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example business match query with the 'lookup' type.
-        
-        Business Match API: https://www.yelp.com/developers/documentation/v3/business_match
-    """
-    print('***** search for business best match *****\n{}\n'.format("yelp_api.business_match_query(name='Splash Cafe', "
-                                                                    "address1='197 Pomeroy Ave', ",
-                                                                    "city='Pismo Beach', state='CA', country='US')"))
-    response = yelp_api.business_match_query(name='Splash Cafe',
-                                             address1='197 Pomeroy Ave',
-                                             city='Pismo Beach',
-                                             state='CA',
-                                             country='US')
-    pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
-
-
-    """
-        Example transaction search query.
-        
-        Transaction Search API: https://www.yelp.com/developers/documentation/v3/transactions_search
-    """
-    print("***** businesses in Dallas supporting delivery transactions *****\n{}\n".format("yelp_api.transaction_search_"
-                                                                                           "query(transaction_type="
-                                                                                           "'delivery', location='dallas, "
-                                                                                           "tx')"))
+    # Transaction Search API: https://docs.developer.yelp.com/reference/v3_transaction_search
+    print("***** businesses in Dallas supporting delivery transactions *****\nyelp_api.transaction_search_query(transaction_type='delivery', location='dallas, tx')\n")
     response = yelp_api.transaction_search_query(transaction_type='delivery', location='dallas, tx')
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example business query.
-        
-        Business API: https://www.yelp.com/developers/documentation/v3/business
-    """
-    print("***** business information for Amy's on 6th St. *****\n{}\n".format("yelp_api.business_query(id='amys-ice-"
-                                                                               "creams-austin-3')"))
+    # Business API: https://docs.developer.yelp.com/reference/v3_business_info
+    print("***** business information for Amy's on 6th St. *****\nyelp_api.business_query(id='amys-ice-creams-austin-3')\n")
     response = yelp_api.business_query(id='amys-ice-creams-austin-3')
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example reviews query.
-        
-        Reviews API: https://www.yelp.com/developers/documentation/v3/business_reviews
-    """
-    print("***** selected reviews for Amy's on 6th St. *****\n{}\n".format("yelp_api.reviews_query(id='amys-ice-"
-                                                                           "creams-austin-3')"))
+    # Reviews API: https://docs.developer.yelp.com/reference/v3_business_reviews
+    print("***** selected reviews for Amy's on 6th St. *****\nyelp_api.reviews_query(id='amys-ice-creams-austin-3')\n")
     response = yelp_api.reviews_query(id='amys-ice-creams-austin-3')
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
+    # Review Highlights API: https://docs.developer.yelp.com/reference/v3_business_review_highlights
+    # NOTE: requires a Premium Plan
+    print("***** review highlights for Amy's on 6th St. *****\nyelp_api.review_highlights_query(id='amys-ice-creams-austin-3')\n")
+    response = yelp_api.review_highlights_query(id='amys-ice-creams-austin-3')
+    pprint(response)
+    print(SEP)
 
-    """
-        Example autocomplete query.
-        
-        Autocomplete API: https://www.yelp.com/developers/documentation/v3/autocomplete
-        centroid: https://www.flickr.com/places/info/2427422
-    """
-    print("***** autocomplete results for 'Hambur' in Iowa City *****\n{}\n".format("yelp_api.autocomplete_query("
-                                                                                    "text='Hambur', longitude=-91.5327, "
-                                                                                    "latitude=41.6560)"))
+    # Autocomplete API: https://docs.developer.yelp.com/reference/v3_autocomplete
+    # centroid: https://www.flickr.com/places/info/2427422
+    print("***** autocomplete results for 'Hambur' in Iowa City *****\nyelp_api.autocomplete_query(text='Hambur', longitude=-91.5327, latitude=41.6560)\n")
     response = yelp_api.autocomplete_query(text='Hambur', longitude=-91.5327, latitude=41.6560)
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
+    # Categories API: https://docs.developer.yelp.com/reference/v3_all_categories
+    print("***** all Yelp categories *****\nyelp_api.categories_query()\n")
+    response = yelp_api.categories_query()
+    pprint(response)
+    print(SEP)
 
-    """
-        Example event search query.
-        
-        Event Search API: https://www.yelp.com/developers/documentation/v3/event_search
-    """
-    print("***** event search result *****\n{}\n".format("yelp_api.event_search_query()"))
+    # Category API: https://docs.developer.yelp.com/reference/v3_categories
+    print("***** details for the 'icecream' category *****\nyelp_api.category_query(alias='icecream')\n")
+    response = yelp_api.category_query(alias='icecream')
+    pprint(response)
+    print(SEP)
+
+    # Event Search API: https://docs.developer.yelp.com/reference/v3_events_search
+    print("***** event search result *****\nyelp_api.event_search_query()\n")
     response = yelp_api.event_search_query()
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example event lookup query.
-        
-        Event Lookup API: https://www.yelp.com/developers/documentation/v3/event
-    """
-    print("***** event lookup result using previous search's first event *****\n{}\n".format("yelp_api.event_lookup_"
-                                                                                             "query(id=response['events']"
-                                                                                             "[0]['id'])"))
+    # Event Lookup API: https://docs.developer.yelp.com/reference/v3_event
+    print("***** event lookup result using previous search's first event *****\nyelp_api.event_lookup_query(id=response['events'][0]['id'])\n")
     response = yelp_api.event_lookup_query(id=response['events'][0]['id'])
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example featured event query.
-        
-        Featured Event API: https://www.yelp.com/developers/documentation/v3/featured_event
-    """
-    print("***** featured event lookup result for New York City, NY *****\n{}\n".format("yelp_api.featured_event_"
-                                                                                        "query(location='New York City, "
-                                                                                        "NY')"))
+    # Featured Event API: https://docs.developer.yelp.com/reference/v3_featured_event
+    print("***** featured event lookup result for New York City, NY *****\nyelp_api.featured_event_query(location='New York City, NY')\n")
     response = yelp_api.featured_event_query(location='New York City, NY')
     pprint(response)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
+    # Business Engagement Metrics API: https://docs.developer.yelp.com/reference/v3_get_businesses_engagement
+    # NOTE: requires special permissions on the Yelp Places API key
+    print("***** engagement metrics for Amy's on 6th St. *****\nyelp_api.business_engagement_query(business_ids='amys-ice-creams-austin-3')\n")
+    response = yelp_api.business_engagement_query(business_ids='amys-ice-creams-austin-3')
+    pprint(response)
+    print(SEP)
 
-    """
-        Example erroneous search query.
-    """
-    print('***** sample erroneous search query *****\n{}\n'.format("yelp_api.search_query(term='ice cream', "
-                                                                   "location='austin, tx', sort_by='BAD_SORT')"))
+    # Business Service Offerings API: https://docs.developer.yelp.com/reference/v3_business_service_offerings
+    # NOTE: requires special permissions on the Yelp Places API key
+    print("***** service offerings for Amy's on 6th St. *****\nyelp_api.business_service_offerings_query(id='amys-ice-creams-austin-3')\n")
+    response = yelp_api.business_service_offerings_query(id='amys-ice-creams-austin-3')
+    pprint(response)
+    print(SEP)
+
+    # Example erroneous search query
+    print("***** sample erroneous search query *****\nyelp_api.search_query(term='ice cream', location='austin, tx', sort_by='BAD_SORT')\n")
     try:
         # sort can only take on values "best_match", "rating", "review_count", or "distance"
         yelp_api.search_query(term='ice cream', location='austin, tx', sort_by='BAD_SORT')
     except YelpAPI.YelpAPIError as e:
         print(e)
-    print('\n-------------------------------------------------------------------------\n')
+    print(SEP)
 
-
-    """
-        Example erroneous business query.
-    """
-    print('***** sample erroneous business query *****\n{}\n'.format("yelp_api.business_query(id='fake-business')"))
+    # Example erroneous business query
+    print("***** sample erroneous business query *****\nyelp_api.business_query(id='fake-business')\n")
     try:
         yelp_api.business_query(id='fake-business')
     except YelpAPI.YelpAPIError as e:

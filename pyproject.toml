@@ -33,7 +33,7 @@ classifiers = [
 
 [project.optional-dependencies]
 dev = [
-    "Faker",
+    "faker",
     "pytest",
     "pytest-cov",
     "requests-mock",
@@ -41,6 +41,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/lanl/yelpapi"
+Changelog = "https://github.com/lanl/yelpapi/blob/master/CHANGES.md"
 
 [tool.pytest.ini_options]
 addopts = "-vl --cov"

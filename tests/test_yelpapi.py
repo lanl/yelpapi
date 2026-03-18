@@ -46,7 +46,7 @@ class TestYelpAPI:
         resp = yelp._query(url)
 
         assert resp == random_dict
-        assert mock_call.last_request.headers['Authorization'] == 'Bearer {}'.format(api_key)
+        assert mock_call.last_request.headers['Authorization'] == f'Bearer {api_key}'
 
     def test_filters_none_params(self, yelp, faker, mock_request, random_dict):
         url = faker.uri()
@@ -92,7 +92,7 @@ class TestYelpAPI:
         with pytest.raises(YelpAPI.YelpAPIError) as exc_info:
             yelp._query(url)
 
-        assert exc_info.value.args[0] == '{}: {}'.format(error_code, error_description)
+        assert exc_info.value.args[0] == f'{error_code}: {error_description}'
 
     @pytest.mark.parametrize('status_code', [400, 401, 403, 404, 500])
     def test_raises_http_error(self, yelp, faker, mock_request, status_code):
@@ -280,7 +280,7 @@ class TestSearchQuery:
     def test_success(self, yelp, faker, mock_request, random_dict):
         mock_call = mock_request.get(SEARCH_API_URL, json=random_dict)
         term = faker.word()
-        location = '{}, {}'.format(faker.city(), faker.state_abbr())
+        location = f'{faker.city()}, {faker.state_abbr()}'
         limit = faker.random_int(1, 10)
 
         resp = yelp.search_query(term=term, location=location, sort_by='rating', limit=limit)
