@@ -49,21 +49,21 @@ class YelpAPI:
     """
         This class implements the complete Yelp Fusion API. It offers access to the following APIs:
 
-            * Autocomplete API - https://www.yelp.com/developers/documentation/v3/autocomplete
-            * Business API - https://www.yelp.com/developers/documentation/v3/business
+            * Autocomplete API - https://docs.developer.yelp.com/reference/v3_autocomplete
+            * Business API - https://docs.developer.yelp.com/reference/v3_business_info
             * Business Engagement Metrics API - https://docs.developer.yelp.com/reference/v3_get_businesses_engagement
-            * Business Match API - https://www.yelp.com/developers/documentation/v3/business_match
+            * Business Match API - https://docs.developer.yelp.com/reference/v3_business_match
             * Business Service Offerings API - https://docs.developer.yelp.com/reference/v3_business_service_offerings
             * Categories API - https://docs.developer.yelp.com/reference/v3_all_categories
             * Category API - https://docs.developer.yelp.com/reference/v3_categories
-            * Event Lookup API - https://www.yelp.com/developers/documentation/v3/event
-            * Event Search API - https://www.yelp.com/developers/documentation/v3/event_search
-            * Featured Event API - https://www.yelp.com/developers/documentation/v3/featured_event
-            * Phone Search API - https://www.yelp.com/developers/documentation/v3/business_search_phone
+            * Event Lookup API - https://docs.developer.yelp.com/reference/v3_event
+            * Event Search API - https://docs.developer.yelp.com/reference/v3_events_search
+            * Featured Event API - https://docs.developer.yelp.com/reference/v3_featured_event
+            * Phone Search API - https://docs.developer.yelp.com/reference/v3_business_phone_search
             * Review Highlights API - https://docs.developer.yelp.com/reference/v3_business_review_highlights
-            * Reviews API - https://www.yelp.com/developers/documentation/v3/business_reviews
-            * Search API - https://www.yelp.com/developers/documentation/v3/business_search
-            * Transaction Search API - https://www.yelp.com/developers/documentation/v3/transactions_search
+            * Reviews API - https://docs.developer.yelp.com/reference/v3_business_reviews
+            * Search API - https://docs.developer.yelp.com/reference/v3_business_search
+            * Transaction Search API - https://docs.developer.yelp.com/reference/v3_transaction_search
 
         It is simple and completely extensible since it dynamically takes arguments. This will allow it to continue
         working even if Yelp changes the spec. The only thing that should cause this to break is if Yelp changes the URL
@@ -128,7 +128,7 @@ class YelpAPI:
         """
             Query the Yelp Autocomplete API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/autocomplete
+            documentation: https://docs.developer.yelp.com/reference/v3_autocomplete
 
             required parameters:
                 * text - search text
@@ -142,7 +142,7 @@ class YelpAPI:
         """
             Query the Yelp Business API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/business
+            documentation: https://docs.developer.yelp.com/reference/v3_business_info
 
             required parameters:
                 * id - business ID
@@ -156,7 +156,7 @@ class YelpAPI:
         """
             Query the Yelp Business Match API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/business_match
+            documentation: https://docs.developer.yelp.com/reference/v3_business_match
 
             required parameters:
                 * name - business name
@@ -245,7 +245,7 @@ class YelpAPI:
         """
             Query the Yelp Event Lookup API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/event
+            documentation: https://docs.developer.yelp.com/reference/v3_event
 
             required parameters:
                 * id - event ID
@@ -259,7 +259,7 @@ class YelpAPI:
         """
             Query the Yelp Event Search API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/event_search
+            documentation: https://docs.developer.yelp.com/reference/v3_events_search
         """
         return self._query(EVENT_SEARCH_API_URL, **kwargs)
 
@@ -267,7 +267,7 @@ class YelpAPI:
         """
             Query the Yelp Featured Event API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/featured_event
+            documentation: https://docs.developer.yelp.com/reference/v3_featured_event
 
             required parameters:
                 * one of either:
@@ -284,7 +284,7 @@ class YelpAPI:
         """
             Query the Yelp Phone Search API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/business_search_phone
+            documentation: https://docs.developer.yelp.com/reference/v3_business_phone_search
 
             required parameters:
                 * phone - phone number
@@ -298,7 +298,7 @@ class YelpAPI:
         """
             Query the Yelp Reviews API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/business_reviews
+            documentation: https://docs.developer.yelp.com/reference/v3_business_reviews
 
             required parameters:
                 * id - business ID
@@ -328,7 +328,7 @@ class YelpAPI:
         """
             Query the Yelp Search API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/business_search
+            documentation: https://docs.developer.yelp.com/reference/v3_business_search
 
             required parameters:
                 * one of either:
@@ -345,7 +345,7 @@ class YelpAPI:
         """
             Query the Yelp Transaction Search API.
 
-            documentation: https://www.yelp.com/developers/documentation/v3/transactions_search
+            documentation: https://docs.developer.yelp.com/reference/v3_transaction_search
 
             required parameters:
                 * transaction_type - transaction type
