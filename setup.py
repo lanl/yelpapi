@@ -54,6 +54,9 @@ For more information on yelpapi, visit the `GitHub project page <https://github.
     packages=[
         'yelpapi',
     ],
+    package_data={
+        'yelpapi': ['py.typed'],
+    },
     install_requires=[
         'requests',
     ],
