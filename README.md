@@ -49,11 +49,16 @@ finally:
 ## METHODS
 * [Autocomplete API](https://www.yelp.com/developers/documentation/v3/autocomplete) - `autocomplete_query(...)`
 * [Business API](https://www.yelp.com/developers/documentation/v3/business) - `business_query(...)`
+* [Business Engagement Metrics API](https://docs.developer.yelp.com/reference/v3_get_businesses_engagement) - `business_engagement_query(...)`
 * [Business Match API](https://www.yelp.com/developers/documentation/v3/business_match) - `business_match_query(...)`
+* [Business Service Offerings API](https://docs.developer.yelp.com/reference/v3_business_service_offerings) - `business_service_offerings_query(...)`
+* [Categories API](https://docs.developer.yelp.com/reference/v3_all_categories) - `categories_query(...)`
+* [Category API](https://docs.developer.yelp.com/reference/v3_categories) - `category_query(...)`
 * [Event Lookup API](https://www.yelp.com/developers/documentation/v3/event) - `event_lookup_query(...)`
 * [Event Search API](https://www.yelp.com/developers/documentation/v3/event_search) - `event_search_query(...)`
 * [Featured Event API](https://www.yelp.com/developers/documentation/v3/featured_event) - `featured_event_query(...)`
 * [Phone Search API](https://www.yelp.com/developers/documentation/v3/business_search_phone) - `phone_search_query(...)`
+* [Review Highlights API](https://docs.developer.yelp.com/reference/v3_business_review_highlights) - `review_highlights_query(...)`
 * [Reviews API](https://www.yelp.com/developers/documentation/v3/business_reviews) - `reviews_query(...)`
 * [Search API](https://www.yelp.com/developers/documentation/v3/business_search) - `search_query(...)`
 * [Transaction Search API](https://www.yelp.com/developers/documentation/v3/transactions_search) - `transaction_search_query(...)`

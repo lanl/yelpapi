@@ -30,11 +30,16 @@ import requests
 
 AUTOCOMPLETE_API_URL = 'https://api.yelp.com/v3/autocomplete'
 BUSINESS_API_URL = 'https://api.yelp.com/v3/businesses/{}'
+BUSINESS_ENGAGEMENT_API_URL = 'https://api.yelp.com/v3/businesses/engagement'
 BUSINESS_MATCH_API_URL = 'https://api.yelp.com/v3/businesses/matches'
+BUSINESS_SERVICE_OFFERINGS_API_URL = 'https://api.yelp.com/v3/businesses/{}/service_offerings'
+CATEGORIES_API_URL = 'https://api.yelp.com/v3/categories'
+CATEGORY_API_URL = 'https://api.yelp.com/v3/categories/{}'
 EVENT_LOOKUP_API_URL = 'https://api.yelp.com/v3/events/{}'
 EVENT_SEARCH_API_URL = 'https://api.yelp.com/v3/events'
 FEATURED_EVENT_API_URL = 'https://api.yelp.com/v3/events/featured'
 PHONE_SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search/phone'
+REVIEW_HIGHLIGHTS_API_URL = 'https://api.yelp.com/v3/businesses/{}/review_highlights'
 REVIEWS_API_URL = 'https://api.yelp.com/v3/businesses/{}/reviews'
 SEARCH_API_URL = 'https://api.yelp.com/v3/businesses/search'
 TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
@@ -46,11 +51,16 @@ class YelpAPI:
 
             * Autocomplete API - https://www.yelp.com/developers/documentation/v3/autocomplete
             * Business API - https://www.yelp.com/developers/documentation/v3/business
+            * Business Engagement Metrics API - https://docs.developer.yelp.com/reference/v3_get_businesses_engagement
             * Business Match API - https://www.yelp.com/developers/documentation/v3/business_match
+            * Business Service Offerings API - https://docs.developer.yelp.com/reference/v3_business_service_offerings
+            * Categories API - https://docs.developer.yelp.com/reference/v3_all_categories
+            * Category API - https://docs.developer.yelp.com/reference/v3_categories
             * Event Lookup API - https://www.yelp.com/developers/documentation/v3/event
             * Event Search API - https://www.yelp.com/developers/documentation/v3/event_search
             * Featured Event API - https://www.yelp.com/developers/documentation/v3/featured_event
             * Phone Search API - https://www.yelp.com/developers/documentation/v3/business_search_phone
+            * Review Highlights API - https://docs.developer.yelp.com/reference/v3_business_review_highlights
             * Reviews API - https://www.yelp.com/developers/documentation/v3/business_reviews
             * Search API - https://www.yelp.com/developers/documentation/v3/business_search
             * Transaction Search API - https://www.yelp.com/developers/documentation/v3/transactions_search
@@ -174,6 +184,63 @@ class YelpAPI:
 
         return self._query(BUSINESS_MATCH_API_URL, **kwargs)
 
+    def business_engagement_query(self, **kwargs: Any) -> dict[str, Any]:
+        """
+            Query the Yelp Business Engagement Metrics API.
+
+            documentation: https://docs.developer.yelp.com/reference/v3_get_businesses_engagement
+
+            required parameters:
+                * business_ids - comma-separated list of business IDs
+
+            NOTE: requires special permissions on the Yelp Places API key.
+        """
+        if not kwargs.get('business_ids'):
+            raise ValueError('Valid business IDs (parameter "business_ids") must be provided.')
+
+        return self._query(BUSINESS_ENGAGEMENT_API_URL, **kwargs)
+
+    def business_service_offerings_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
+        """
+            Query the Yelp Business Service Offerings API.
+
+            documentation: https://docs.developer.yelp.com/reference/v3_business_service_offerings
+
+            required parameters:
+                * id - business ID or alias
+
+            NOTE: requires special permissions on the Yelp Places API key.
+        """
+        if not id:
+            raise ValueError('A valid business ID (parameter "id") must be provided.')
+
+        return self._query(BUSINESS_SERVICE_OFFERINGS_API_URL.format(id), **kwargs)
+
+    def categories_query(self, **kwargs: Any) -> dict[str, Any]:
+        """
+            Query the Yelp Categories API.
+
+            documentation: https://docs.developer.yelp.com/reference/v3_all_categories
+
+            optional parameters:
+                * locale - filter by locale and localize category names
+        """
+        return self._query(CATEGORIES_API_URL, **kwargs)
+
+    def category_query(self, alias: str, **kwargs: Any) -> dict[str, Any]:
+        """
+            Query the Yelp Category API.
+
+            documentation: https://docs.developer.yelp.com/reference/v3_categories
+
+            required parameters:
+                * alias - category alias
+        """
+        if not alias:
+            raise ValueError('A valid category alias (parameter "alias") must be provided.')
+
+        return self._query(CATEGORY_API_URL.format(alias), **kwargs)
+
     def event_lookup_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
         """
             Query the Yelp Event Lookup API.
@@ -240,6 +307,22 @@ class YelpAPI:
             raise ValueError('A valid business ID (parameter "id") must be provided.')
 
         return self._query(REVIEWS_API_URL.format(id), **kwargs)
+
+    def review_highlights_query(self, id: str, **kwargs: Any) -> dict[str, Any]:
+        """
+            Query the Yelp Review Highlights API.
+
+            documentation: https://docs.developer.yelp.com/reference/v3_business_review_highlights
+
+            required parameters:
+                * id - business ID or alias
+
+            NOTE: requires a Premium Plan.
+        """
+        if not id:
+            raise ValueError('A valid business ID (parameter "id") must be provided.')
+
+        return self._query(REVIEW_HIGHLIGHTS_API_URL.format(id), **kwargs)
 
     def search_query(self, **kwargs: Any) -> dict[str, Any]:
         """

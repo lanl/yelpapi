@@ -6,11 +6,16 @@ from yelpapi import YelpAPI
 from yelpapi.yelpapi import (
     AUTOCOMPLETE_API_URL,
     BUSINESS_API_URL,
+    BUSINESS_ENGAGEMENT_API_URL,
     BUSINESS_MATCH_API_URL,
+    BUSINESS_SERVICE_OFFERINGS_API_URL,
+    CATEGORIES_API_URL,
+    CATEGORY_API_URL,
     EVENT_LOOKUP_API_URL,
     EVENT_SEARCH_API_URL,
     FEATURED_EVENT_API_URL,
     PHONE_SEARCH_API_URL,
+    REVIEW_HIGHLIGHTS_API_URL,
     REVIEWS_API_URL,
     SEARCH_API_URL,
     TRANSACTION_SEARCH_API_URL,
@@ -155,6 +160,50 @@ class TestBusinessMatchQuery:
         ) == random_dict
 
 
+class TestBusinessEngagementQuery:
+    def test_requires_business_ids(self, yelp):
+        with pytest.raises(ValueError):
+            yelp.business_engagement_query()
+
+    def test_success(self, yelp, faker, mock_request, random_dict):
+        mock_request.get(BUSINESS_ENGAGEMENT_API_URL, json=random_dict)
+
+        assert yelp.business_engagement_query(business_ids=faker.pystr()) == random_dict
+
+
+class TestBusinessServiceOfferingsQuery:
+    @pytest.mark.parametrize('invalid_id', [None, ''])
+    def test_requires_id(self, yelp, invalid_id):
+        with pytest.raises(ValueError):
+            yelp.business_service_offerings_query(invalid_id)
+
+    def test_success(self, yelp, faker, mock_request, random_dict):
+        business_id = faker.pystr()
+        mock_request.get(BUSINESS_SERVICE_OFFERINGS_API_URL.format(business_id), json=random_dict)
+
+        assert yelp.business_service_offerings_query(business_id) == random_dict
+
+
+class TestCategoriesQuery:
+    def test_success(self, yelp, mock_request, random_dict):
+        mock_request.get(CATEGORIES_API_URL, json=random_dict)
+
+        assert yelp.categories_query() == random_dict
+
+
+class TestCategoryQuery:
+    @pytest.mark.parametrize('invalid_alias', [None, ''])
+    def test_requires_alias(self, yelp, invalid_alias):
+        with pytest.raises(ValueError):
+            yelp.category_query(invalid_alias)
+
+    def test_success(self, yelp, faker, mock_request, random_dict):
+        alias = faker.word()
+        mock_request.get(CATEGORY_API_URL.format(alias), json=random_dict)
+
+        assert yelp.category_query(alias) == random_dict
+
+
 class TestEventLookupQuery:
     @pytest.mark.parametrize('invalid_id', [None, ''])
     def test_requires_id(self, yelp, invalid_id):
@@ -208,6 +257,19 @@ class TestReviewsQuery:
         mock_request.get(REVIEWS_API_URL.format(business_id), json=random_dict)
 
         assert yelp.reviews_query(business_id) == random_dict
+
+
+class TestReviewHighlightsQuery:
+    @pytest.mark.parametrize('invalid_id', [None, ''])
+    def test_requires_id(self, yelp, invalid_id):
+        with pytest.raises(ValueError):
+            yelp.review_highlights_query(invalid_id)
+
+    def test_success(self, yelp, faker, mock_request, random_dict):
+        business_id = faker.pystr()
+        mock_request.get(REVIEW_HIGHLIGHTS_API_URL.format(business_id), json=random_dict)
+
+        assert yelp.review_highlights_query(business_id) == random_dict
 
 
 class TestSearchQuery:
