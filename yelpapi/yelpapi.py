@@ -36,10 +36,9 @@ TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
 
 
 class YelpAPI:
-
     """
         This class implements the complete Yelp Fusion API. It offers access to the following APIs:
-        
+
             * Autocomplete API - https://www.yelp.com/developers/documentation/v3/autocomplete
             * Business API - https://www.yelp.com/developers/documentation/v3/business
             * Business Match API - https://www.yelp.com/developers/documentation/v3/business_match
@@ -69,7 +68,6 @@ class YelpAPI:
     """
 
     class YelpAPIError(Exception):
-
         """
             This class is used for all API errors. Currently, there is no master list of all possible errors, but
             there is an open issue on this: https://github.com/Yelp/yelp-fusion/issues/95.
@@ -92,7 +90,7 @@ class YelpAPI:
         self._api_key = api_key
         self._timeout_s = timeout_s
         self._yelp_session = requests.Session()
-        self._headers = {'Authorization': 'Bearer {}'.format(self._api_key)}
+        self._headers = {'Authorization': f'Bearer {self._api_key}'}
 
     def close(self):
         """
@@ -109,7 +107,7 @@ class YelpAPI:
     def autocomplete_query(self, **kwargs):
         """
             Query the Yelp Autocomplete API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/autocomplete
 
             required parameters:
@@ -123,7 +121,7 @@ class YelpAPI:
     def business_query(self, id, **kwargs):
         """
             Query the Yelp Business API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/business
 
             required parameters:
@@ -137,7 +135,7 @@ class YelpAPI:
     def business_match_query(self, **kwargs):
         """
             Query the Yelp Business Match API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/business_match
 
             required parameters:
@@ -169,7 +167,7 @@ class YelpAPI:
     def event_lookup_query(self, id, **kwargs):
         """
             Query the Yelp Event Lookup API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/event
 
             required parameters:
@@ -183,7 +181,7 @@ class YelpAPI:
     def event_search_query(self, **kwargs):
         """
             Query the Yelp Event Search API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/event_search
         """
         return self._query(EVENT_SEARCH_API_URL, **kwargs)
@@ -208,7 +206,7 @@ class YelpAPI:
     def phone_search_query(self, **kwargs):
         """
             Query the Yelp Phone Search API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/business_search_phone
 
             required parameters:
@@ -222,7 +220,7 @@ class YelpAPI:
     def reviews_query(self, id, **kwargs):
         """
             Query the Yelp Reviews API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/business_reviews
 
             required parameters:
@@ -236,7 +234,7 @@ class YelpAPI:
     def search_query(self, **kwargs):
         """
             Query the Yelp Search API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/business_search
 
             required parameters:
@@ -253,9 +251,9 @@ class YelpAPI:
     def transaction_search_query(self, transaction_type, **kwargs):
         """
             Query the Yelp Transaction Search API.
-            
+
             documentation: https://www.yelp.com/developers/documentation/v3/transactions_search
-            
+
             required parameters:
                 * transaction_type - transaction type
                 * one of either:
@@ -276,7 +274,7 @@ class YelpAPI:
         """
             Clean the parameters by filtering out any parameters that have a None value.
         """
-        return dict((k, v) for k, v in kwargs.items() if v is not None)
+        return {k: v for k, v in kwargs.items() if v is not None}
 
     def _query(self, url, **kwargs):
         """
@@ -290,16 +288,14 @@ class YelpAPI:
             params=parameters,
             timeout=self._timeout_s,
         )
-        response.raise_for_status()  # will raise error if error status code received: https://requests.readthedocs.io/en/latest/api/#requests.Response.raise_for_status
+        response.raise_for_status()
 
-        response_json = response.json()  # shouldn't happen, but this will raise a ValueError if the response isn't JSON
+        response_json = response.json()
 
         # Yelp can return one of many different API errors, so check for one of them.
         # The Yelp Fusion API does not yet have a complete list of errors, but this is on the TODO list; see
         # https://github.com/Yelp/yelp-fusion/issues/95 for more info.
         if 'error' in response_json:
-            raise YelpAPI.YelpAPIError('{}: {}'.format(response_json['error']['code'],
-                                                       response_json['error']['description']))
+            raise YelpAPI.YelpAPIError(f'{response_json["error"]["code"]}: {response_json["error"]["description"]}')
 
-        # we got a good response, so return
         return response_json
