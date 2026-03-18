@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "yelpapi"
-version = "2.5.1"
+version = "2.6.0"
 description = "yelpapi is a pure Python implementation of the Yelp Fusion API."
 readme = "README.md"
 license = {file = "LICENSE"}

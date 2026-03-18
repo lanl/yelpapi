@@ -1,5 +1,14 @@
 # Changes
 
+## 2.6.0 (2026-03-17)
+* Added 5 new API endpoints: Business Engagement Metrics (`business_engagement_query`), Business Service Offerings (`business_service_offerings_query`), Categories (`categories_query`), Category by Alias (`category_query`), and Review Highlights (`review_highlights_query`).
+* Updated all documentation URLs to the current `docs.developer.yelp.com` reference format.
+* Migrated from `setup.py` to `pyproject.toml` (hatchling build backend).
+* Dropped Python 3.8 support; added Python 3.13 and 3.14. Minimum supported version is now 3.9.
+* Migrated CI from Travis CI to GitHub Actions.
+* Added type hints throughout.
+* Reached 100% test coverage.
+
 ## 2.5.1 (2023-10-10)
 * Raise [`HTTPError`](https://requests.readthedocs.io/en/latest/api/#requests.HTTPError) if one occurs (PR #25).
 
