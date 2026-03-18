@@ -20,7 +20,7 @@ Install using [pip](http://www.pip-installer.org/):
 
 Install from source:
 
-    python setup.py install
+    pip install .
 
 ## USING THIS CODE
 This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the following chunk of code demonstrates basic use of yelpapi:
