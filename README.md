@@ -18,10 +18,6 @@ Install using [pip](http://www.pip-installer.org/):
 
     pip install yelpapi
 
-Install from source:
-
-    pip install .
-
 ## USING THIS CODE
 This API is demonstrated more thoroughly in [examples.py](examples/examples.py), but the following chunk of code demonstrates basic use of yelpapi:
 
