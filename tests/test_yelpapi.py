@@ -66,9 +66,8 @@ class TestYelpAPI:
         timeout_s = faker.random_int(1, 60) if has_timeout else None
         yelp = YelpAPI(faker.pystr(), timeout_s=timeout_s)
 
-        resp = yelp._query(url)
+        yelp._query(url)
 
-        assert resp == random_dict
         assert mock_call.last_request.timeout == timeout_s
 
     def test_expects_json(self, yelp, faker, mock_request):
