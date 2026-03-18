@@ -33,7 +33,7 @@ This is a thin Python wrapper around the [Yelp Fusion API](https://docs.develope
 
 ## Releasing
 
-Bump the version in `pyproject.toml`, update `CHANGES.md`, then push an annotated tag. The `publish.yml` GitHub Actions workflow will build and publish to PyPI automatically:
+Bump the version in `pyproject.toml`, update `CHANGES.md`, then push an annotated tag. The `publish.yml` GitHub Actions workflow will build, publish to PyPI, and create a GitHub release automatically. The annotated tag message is used as the release notes:
 
 ```
 git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z

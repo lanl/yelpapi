@@ -11,6 +11,7 @@ jobs:
     environment: pypi
     permissions:
       id-token: write
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
@@ -26,3 +27,8 @@ jobs:
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+      - name: Create GitHub release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "${{ github.ref_name }}" dist/* --title "YelpAPI ${{ github.ref_name }}" --notes-from-tag
