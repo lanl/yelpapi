@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Install dependencies:
 ```
-pip install ".[dev]"
+pip install -e ".[dev]"
 ```
 
 Run tests (coverage included by default via `pyproject.toml`):

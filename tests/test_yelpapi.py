@@ -79,7 +79,7 @@ class TestYelpAPI:
         url = faker.uri()
         mock_request.get(url, content=bytes(faker.binary(length=256)))
 
-        with pytest.raises(ValueError):
+        with pytest.raises(requests.exceptions.JSONDecodeError):
             yelp._query(url)
 
     def test_raises_yelp_api_error(self, yelp, faker, mock_request, random_dict):
@@ -114,9 +114,10 @@ class TestYelpAPI:
 
 
 class TestAutocompleteQuery:
-    def test_requires_text(self, yelp):
+    @pytest.mark.parametrize('invalid_text', [None, ''])
+    def test_requires_text(self, yelp, invalid_text):
         with pytest.raises(ValueError):
-            yelp.autocomplete_query()
+            yelp.autocomplete_query(text=invalid_text)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         mock_request.get(AUTOCOMPLETE_API_URL, json=random_dict)
@@ -152,6 +153,20 @@ class TestBusinessMatchQuery:
         with pytest.raises(ValueError):
             yelp.business_match_query(**params)
 
+    @pytest.mark.parametrize('empty_param', ['name', 'city', 'state', 'country', 'address1'])
+    def test_rejects_empty_params(self, yelp, faker, empty_param):
+        params = {
+            'name': faker.company(),
+            'city': faker.city(),
+            'state': faker.state_abbr(),
+            'country': faker.country_code(),
+            'address1': faker.street_address(),
+        }
+        params[empty_param] = ''
+
+        with pytest.raises(ValueError):
+            yelp.business_match_query(**params)
+
     def test_success(self, yelp, faker, mock_request, random_dict):
         mock_request.get(BUSINESS_MATCH_API_URL, json=random_dict)
 
@@ -165,9 +180,10 @@ class TestBusinessMatchQuery:
 
 
 class TestBusinessEngagementQuery:
-    def test_requires_business_ids(self, yelp):
+    @pytest.mark.parametrize('invalid_ids', [None, ''])
+    def test_requires_business_ids(self, yelp, invalid_ids):
         with pytest.raises(ValueError):
-            yelp.business_engagement_query()
+            yelp.business_engagement_query(business_ids=invalid_ids)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         mock_request.get(BUSINESS_ENGAGEMENT_API_URL, json=random_dict)
@@ -233,16 +249,27 @@ class TestFeaturedEventQuery:
         with pytest.raises(ValueError):
             yelp.featured_event_query()
 
-    def test_success(self, yelp, faker, mock_request, random_dict):
+    @pytest.mark.parametrize('partial_kwargs', [{'latitude': 37.7749}, {'longitude': -122.4194}])
+    def test_rejects_partial_lat_lng(self, yelp, partial_kwargs):
+        with pytest.raises(ValueError):
+            yelp.featured_event_query(**partial_kwargs)
+
+    def test_success_with_location(self, yelp, faker, mock_request, random_dict):
         mock_request.get(FEATURED_EVENT_API_URL, json=random_dict)
 
         assert yelp.featured_event_query(location=faker.city()) == random_dict
 
+    def test_success_with_lat_lng(self, yelp, faker, mock_request, random_dict):
+        mock_request.get(FEATURED_EVENT_API_URL, json=random_dict)
+
+        assert yelp.featured_event_query(latitude=faker.latitude(), longitude=faker.longitude()) == random_dict
+
 
 class TestPhoneSearchQuery:
-    def test_requires_phone(self, yelp):
+    @pytest.mark.parametrize('invalid_phone', [None, ''])
+    def test_requires_phone(self, yelp, invalid_phone):
         with pytest.raises(ValueError):
-            yelp.phone_search_query()
+            yelp.phone_search_query(phone=invalid_phone)
 
     def test_success(self, yelp, faker, mock_request, random_dict):
         mock_request.get(PHONE_SEARCH_API_URL, json=random_dict)
@@ -281,7 +308,12 @@ class TestSearchQuery:
         with pytest.raises(ValueError):
             yelp.search_query()
 
-    def test_success(self, yelp, faker, mock_request, random_dict):
+    @pytest.mark.parametrize('partial_kwargs', [{'latitude': 37.7749}, {'longitude': -122.4194}])
+    def test_rejects_partial_lat_lng(self, yelp, partial_kwargs):
+        with pytest.raises(ValueError):
+            yelp.search_query(**partial_kwargs)
+
+    def test_success_with_location(self, yelp, faker, mock_request, random_dict):
         mock_call = mock_request.get(SEARCH_API_URL, json=random_dict)
         term = faker.word()
         location = f'{faker.city()}, {faker.state_abbr()}'
@@ -297,6 +329,11 @@ class TestSearchQuery:
             'limit': [str(limit)],
         }
 
+    def test_success_with_lat_lng(self, yelp, faker, mock_request, random_dict):
+        mock_request.get(SEARCH_API_URL, json=random_dict)
+
+        assert yelp.search_query(latitude=faker.latitude(), longitude=faker.longitude()) == random_dict
+
 
 class TestTransactionSearchQuery:
     @pytest.mark.parametrize('invalid_type', [None, ''])
@@ -308,8 +345,21 @@ class TestTransactionSearchQuery:
         with pytest.raises(ValueError):
             yelp.transaction_search_query(faker.word())
 
-    def test_success(self, yelp, faker, mock_request, random_dict):
+    @pytest.mark.parametrize('partial_kwargs', [{'latitude': 37.7749}, {'longitude': -122.4194}])
+    def test_rejects_partial_lat_lng(self, yelp, faker, partial_kwargs):
+        with pytest.raises(ValueError):
+            yelp.transaction_search_query(faker.word(), **partial_kwargs)
+
+    def test_success_with_location(self, yelp, faker, mock_request, random_dict):
         transaction_type = faker.word()
         mock_request.get(TRANSACTION_SEARCH_API_URL.format(transaction_type), json=random_dict)
 
         assert yelp.transaction_search_query(transaction_type, location=faker.city()) == random_dict
+
+    def test_success_with_lat_lng(self, yelp, faker, mock_request, random_dict):
+        transaction_type = faker.word()
+        mock_request.get(TRANSACTION_SEARCH_API_URL.format(transaction_type), json=random_dict)
+
+        assert yelp.transaction_search_query(
+            transaction_type, latitude=faker.latitude(), longitude=faker.longitude()
+        ) == random_dict
