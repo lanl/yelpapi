@@ -1,10 +1,10 @@
 import warnings
 from typing import Any
+from unittest.mock import patch
 
 import pytest
 import requests
 import requests_mock
-from unittest.mock import patch
 
 from yelpapi import YelpAPI
 
@@ -221,9 +221,8 @@ class TestYelpAPI:
         mock_close.assert_called_once_with()
 
     def test_context_manager_closes_on_error(self, api_key):
-        with patch.object(YelpAPI, 'close') as mock_close:
-            with pytest.raises(RuntimeError), YelpAPI(api_key):
-                raise RuntimeError
+        with patch.object(YelpAPI, 'close') as mock_close, pytest.raises(RuntimeError), YelpAPI(api_key):
+            raise RuntimeError
         mock_close.assert_called_once_with()
 
     def test_reuses_one_session(self, yelp, mock_request):
@@ -273,7 +272,7 @@ class TestEndpoints:
         """Each method returns the parsed response rather than the raw JSON."""
         mock_request.register_uri(requests_mock.ANY, url, json={'error': {'code': 'BAD', 'description': 'bad'}})
 
-        with pytest.raises(YelpAPI.YelpAPIError, match='^BAD: bad$'):
+        with pytest.raises(YelpAPI.YelpAPIError, match=r'^BAD: bad$'):
             getattr(yelp, method_name)(*args, **kwargs)
 
 

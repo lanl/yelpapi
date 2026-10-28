@@ -30,6 +30,7 @@
 # run_restricted(), which prints the HTTP error and moves on instead of aborting the script.
 
 import argparse
+import contextlib
 from collections.abc import Callable
 from pprint import pprint
 from typing import Any
@@ -45,10 +46,8 @@ def print_http_error(e: requests.HTTPError) -> None:
     """Print an HTTP error, including Yelp's error object if the response has one."""
     print(e)
     if e.response is not None:
-        try:
+        with contextlib.suppress(ValueError):
             print(e.response.json().get('error'))
-        except ValueError:
-            pass
 
 
 def run_restricted(call: Callable[[], dict[str, Any]]) -> dict[str, Any] | None:
@@ -123,7 +122,7 @@ with YelpAPI(args.api_key) as yelp_api:
     print(SEP)
 
     # Categories API: https://docs.developer.yelp.com/reference/v3_all_categories
-    print("***** all Yelp categories *****\nyelp_api.categories_query()\n")
+    print('***** all Yelp categories *****\nyelp_api.categories_query()\n')
     response = yelp_api.categories_query()
     pprint(response)
     print(SEP)

@@ -24,7 +24,12 @@ Type-check (strict; configured in `[tool.mypy]` in `pyproject.toml`, which sets 
 mypy
 ```
 
-CI (`.github/workflows/tests.yml`) runs `pytest` on every supported Python version and `mypy` once in a separate `typecheck` job. Both must pass.
+Lint (configured in `[tool.ruff]` in `pyproject.toml`; `ruff check --fix` applies safe fixes):
+```
+ruff check
+```
+
+CI (`.github/workflows/tests.yml`) runs `pytest` on every supported Python version, plus `mypy` and `ruff check` once each in separate `typecheck` and `lint` jobs. All must pass.
 
 ## Architecture
 

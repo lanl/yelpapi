@@ -8,6 +8,24 @@ permissions:
   contents: read
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # Ruff targets requires-python in pyproject.toml regardless of the interpreter it runs on.
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.x'
+
+      - name: Install ruff
+        run: pip install ruff
+
+      - name: Lint with ruff
+        run: ruff check --output-format=github
+
   typecheck:
     runs-on: ubuntu-latest
 

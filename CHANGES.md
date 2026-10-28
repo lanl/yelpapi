@@ -16,6 +16,7 @@
 * Updated docstrings to match Yelp's current docs (plan and access requirements, `match_threshold`, the 20-ID limit for `business_ids`, and required fields for Request a Quote).
 * Fixed the examples so they catch `requests.HTTPError` and keep going when an endpoint needs a paid plan or extra access.
 * Strengthened the test suite: every endpoint's URL, HTTP method, and parameters are now checked, and test data is deterministic.
+* Added [Ruff](https://docs.astral.sh/ruff/) linting, run in CI.
 
 ## 2.7.0 (2026-10-28)
 * Dropped support for end-of-life Python 3.9 and 3.10; added Python 3.15. Minimum supported version is now 3.11.
