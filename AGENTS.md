@@ -32,11 +32,11 @@ This is a thin Python wrapper around the [Yelp Fusion API](https://docs.develope
 
 **Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change. Public methods return `dict[str, Any]`; don't introduce `TypedDict`s or response models, since they would break this pass-through design.
 
-**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which strips `None`-valued kwargs before issuing the GET request via a shared `requests.Session`. `_query()` raises `requests.HTTPError` for HTTP error statuses, and raises `YelpAPI.YelpAPIError` if the JSON body isn't an object or contains an `error` key. Methods that require a location share a `_require_location_or_lat_lng()` helper.
+**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_get()` (GET; kwargs become query string parameters) or `_post()` (POST; kwargs become the JSON body). Both strip `None`-valued kwargs before issuing the request via a shared `requests.Session`, then hand the response to `_parse_response()`, which raises `requests.HTTPError` for HTTP error statuses, returns `{}` for empty `202`/`204` responses, and raises `YelpAPI.YelpAPIError` if the JSON body isn't an object or contains an `error` key. Methods that require a location share a `_require_location_or_lat_lng()` helper.
 
 **Session management:** A single `requests.Session` is reused for all calls (performance benefit). Users should close it via context manager (`with YelpAPI(...) as api`) or explicitly via `api.close()`.
 
-**Tests** use `requests-mock` (via the `mock_request` autouse fixture in `conftest.py`) to intercept HTTP calls, and `Faker` for generating random test data. No real API calls are made in tests.
+**Tests** use `requests-mock` (via the `mock_request` autouse fixture in `conftest.py`) to intercept HTTP calls, and a fixed-seed `Faker` for generating test data, so every run is deterministic. No real API calls are made in tests.
 
 ## Conventions
 
@@ -45,7 +45,8 @@ This is a thin Python wrapper around the [Yelp Fusion API](https://docs.develope
 - **Style:** Use single quotes for strings, and 120-character lines.
 - **Adding an endpoint** requires all of the following:
   - a `*_API_URL` constant
-  - a method that validates required parameters and calls `_query()`
+  - a method that validates required parameters and calls `_get()` (GET) or `_post()` (POST); path parameters are positional arguments inserted with `quote(value, safe='')`
+  - an entry in the `GET_ENDPOINTS` or `POST_ENDPOINTS` table in `tests/test_yelpapi.py` (use `PATH_PARAM` for path parameters)
   - an entry in the `YelpAPI` class docstring's API list
   - an entry in the README "METHODS" list
   - tests covering both validation failures and success

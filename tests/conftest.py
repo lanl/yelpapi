@@ -11,4 +11,7 @@ def mock_request():
 
 @pytest.fixture
 def faker():
-    return Faker()
+    # Seeded so that every run uses the same data.
+    fake = Faker()
+    fake.seed_instance(0)
+    return fake

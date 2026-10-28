@@ -1,5 +1,22 @@
 # Changes
 
+## 2.8.0 (2026-10-28)
+* **Heads up for subclassers:** the private request helper `YelpAPI._query()` has been renamed to `YelpAPI._get()`, and the new POST helper is `YelpAPI._post()`.
+    * If your subclass *calls* `self._query(...)` to reach endpoints this library doesn't wrap, switch to `self._get(...)`. `_query()` still works for this release but emits a `FutureWarning`.
+    * If your subclass *overrides* `_query()` (e.g., for caching, retries, or logging), override `_get()` (and `_post()` for POST endpoints) instead. Public methods no longer call `_query()`, so an override of it is no longer used. Defining such a subclass emits a `FutureWarning`.
+    * `_query()` will be removed in 2.9.0.
+* Added 8 new API endpoints: AI Chat (`ai_chat_query`), Business Insights (`business_insights_query`), Business Food & Drinks Insights (`business_food_and_drinks_insights_query`), Business Risk Signal Insights (`business_risk_signals_insights_query`), Business Request a Phone Call (`business_rapc_enabledness_query`), Jobs (`jobs_query`), Job Survey (`job_survey_query`), and Request a Quote (`request_a_quote_query`).
+* Added support for POST endpoints, which send `**kwargs` as the JSON request body (with `None` values removed). Successful responses with no body (e.g., `202 Accepted`) return an empty dict.
+* `business_service_offerings_query` now emits a `DeprecationWarning`, because Yelp has deprecated the endpoint in favor of "Jobs offered" on the Business API.
+* Fixed: a latitude or longitude of `0` (the equator or prime meridian) is now accepted by `search_query`, `featured_event_query`, and `transaction_search_query` instead of raising `ValueError`.
+* Fixed: `business_match_query` now accepts an empty `address1`, which Yelp allows for service businesses with no street address.
+* Fixed: a malformed `error` object in a response (e.g., a plain string, or one missing `code` or `description`) now raises `YelpAPI.YelpAPIError` instead of a `TypeError` or `KeyError`.
+* Path parameters (business IDs, aliases, event IDs, job aliases, and transaction types) are now percent-encoded, so characters like `/`, `?`, and `#` can no longer change the URL that is requested.
+* Clarified the `YelpAPI.YelpAPIError` docs: HTTP error statuses raise `requests.HTTPError`, while `YelpAPIError` covers error objects and non-object bodies in successful responses.
+* Updated docstrings to match Yelp's current docs (plan and access requirements, `match_threshold`, the 20-ID limit for `business_ids`, and required fields for Request a Quote).
+* Fixed the examples so they catch `requests.HTTPError` and keep going when an endpoint needs a paid plan or extra access.
+* Strengthened the test suite: every endpoint's URL, HTTP method, and parameters are now checked, and test data is deterministic.
+
 ## 2.7.0 (2026-10-28)
 * Dropped support for end-of-life Python 3.9 and 3.10; added Python 3.15. Minimum supported version is now 3.11.
 * `YelpAPI.__enter__` now returns `Self`, so subclasses are typed correctly when used as context managers.
