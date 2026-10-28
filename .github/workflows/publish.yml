@@ -3,7 +3,7 @@ name: Publish
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   publish:
@@ -14,11 +14,28 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: '3.15'
+
+      - name: Verify tag matches package version
+        run: |
+          version="$(python -c 'import tomllib; print(tomllib.load(open("pyproject.toml", "rb"))["project"]["version"])')"
+          if [ "v${version}" != "${{ github.ref_name }}" ]; then
+            echo "Tag ${{ github.ref_name }} does not match pyproject.toml version ${version}" >&2
+            exit 1
+          fi
+
+      - name: Extract release notes from CHANGES.md
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          awk -v v="$version" '/^## /{if (f) exit; f = (index($0, "## " v " ") == 1); next} f' CHANGES.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "No CHANGES.md entry found for ${version}" >&2
+            exit 1
+          fi
 
       - name: Build
         run: |
@@ -31,4 +48,4 @@ jobs:
       - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${{ github.ref_name }}" dist/* --title "YelpAPI ${{ github.ref_name }}" --notes-from-tag
+        run: gh release create "${{ github.ref_name }}" dist/* --title "YelpAPI ${{ github.ref_name }}" --notes-file release-notes.md

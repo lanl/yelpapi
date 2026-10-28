@@ -21,10 +21,8 @@
     OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-from __future__ import annotations
-
 from types import TracebackType
-from typing import Any
+from typing import Any, Self
 
 import requests
 
@@ -78,7 +76,7 @@ class YelpAPI:
 
         This class will create and use a single `requests.Session` object for all API calls, which will provide a nice
         performance boost with many calls. To avoid keeping unnecessary connections open, you should be sure to close
-        the Session once all Yelp API interactions are complete. This can be done manully by calling close() or by
+        the Session once all Yelp API interactions are complete. This can be done manually by calling close() or by
         using it as a context manager.
     """
 
@@ -112,7 +110,7 @@ class YelpAPI:
         """
         self._yelp_session.close()
 
-    def __enter__(self) -> YelpAPI:
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(
@@ -375,6 +373,11 @@ class YelpAPI:
         response.raise_for_status()
 
         response_json = response.json()
+
+        # Every Yelp Fusion endpoint returns a JSON object. Anything else (e.g., a bare string or list) is unexpected
+        # and must be rejected before the error check below, which assumes a dict.
+        if not isinstance(response_json, dict):
+            raise YelpAPI.YelpAPIError(f'Unexpected response type: {type(response_json).__name__}')
 
         # Yelp can return one of many different API errors, so check for one of them.
         # The Yelp Fusion API does not yet have a complete list of errors, but this is on the TODO list; see

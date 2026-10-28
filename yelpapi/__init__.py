@@ -22,3 +22,5 @@
 """
 
 from .yelpapi import YelpAPI
+
+__all__ = ['YelpAPI']

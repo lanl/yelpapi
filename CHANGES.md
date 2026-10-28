@@ -1,5 +1,12 @@
 # Changes
 
+## 2.7.0 (2026-10-28)
+* Dropped support for end-of-life Python 3.9 and 3.10; added Python 3.15. Minimum supported version is now 3.11.
+* `YelpAPI.__enter__` now returns `Self`, so subclasses are typed correctly when used as context managers.
+* Declared `__all__` in the `yelpapi` package so `from yelpapi import YelpAPI` passes `mypy --strict` (no implicit re-export) and Pyright's private-import checks.
+* Added the `Typing :: Typed` classifier.
+* A JSON response body that isn't an object (e.g., a string or list) now raises `YelpAPI.YelpAPIError` instead of an unhelpful `TypeError` or silently returning the wrong type.
+
 ## 2.6.0 (2026-03-17)
 * Added 5 new API endpoints: Business Engagement Metrics (`business_engagement_query`), Business Service Offerings (`business_service_offerings_query`), Categories (`categories_query`), Category by Alias (`category_query`), and Review Highlights (`review_highlights_query`).
 * Updated all documentation URLs to the current `docs.developer.yelp.com` reference format.

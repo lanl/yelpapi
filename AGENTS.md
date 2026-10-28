@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI coding agents working with code in this repository.
 
 ## Commands
 
@@ -19,22 +19,59 @@ Run a single test:
 pytest tests/test_yelpapi.py::TestYelpAPI::test_calls_api
 ```
 
+Type-check (strict; configured in `[tool.mypy]` in `pyproject.toml`, which sets the files to check and targets the minimum supported Python):
+```
+mypy
+```
+
+CI (`.github/workflows/tests.yml`) runs `pytest` on every supported Python version and `mypy` once in a separate `typecheck` job. Both must pass.
+
 ## Architecture
 
-This is a thin Python wrapper around the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). The entire implementation lives in `yelpapi/yelpapi.py` as a single `YelpAPI` class.
+This is a thin Python wrapper around the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). The entire implementation lives in `yelpapi/yelpapi.py` as a single `YelpAPI` class, re-exported from `yelpapi/__init__.py` via `__all__`.
 
-**Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change.
+**Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change. Public methods return `dict[str, Any]`; don't introduce `TypedDict`s or response models, since they would break this pass-through design.
 
-**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which strips `None`-valued kwargs before issuing the GET request via a shared `requests.Session`. Errors from Yelp's API (returned as JSON with an `error` key) are raised as `YelpAPI.YelpAPIError`. Methods that require a location share a `_require_location_or_lat_lng()` helper.
+**Request flow:** Each public method (e.g., `search_query`, `business_query`) validates required parameters, then delegates to `_query()`, which strips `None`-valued kwargs before issuing the GET request via a shared `requests.Session`. `_query()` raises `requests.HTTPError` for HTTP error statuses, and raises `YelpAPI.YelpAPIError` if the JSON body isn't an object or contains an `error` key. Methods that require a location share a `_require_location_or_lat_lng()` helper.
 
 **Session management:** A single `requests.Session` is reused for all calls (performance benefit). Users should close it via context manager (`with YelpAPI(...) as api`) or explicitly via `api.close()`.
 
 **Tests** use `requests-mock` (via the `mock_request` autouse fixture in `conftest.py`) to intercept HTTP calls, and `Faker` for generating random test data. No real API calls are made in tests.
 
+## Conventions
+
+- **Typing:** The package ships `py.typed` and must pass strict `mypy`. All library code must be fully annotated. Tests and examples are type-checked but may omit annotations; see the `[[tool.mypy.overrides]]` section of `pyproject.toml`.
+- **Coverage:** Line coverage of `yelpapi/` is 100%. Keep it there; new code paths need tests.
+- **Style:** Use single quotes for strings, and 120-character lines.
+- **Adding an endpoint** requires all of the following:
+  - a `*_API_URL` constant
+  - a method that validates required parameters and calls `_query()`
+  - an entry in the `YelpAPI` class docstring's API list
+  - an entry in the README "METHODS" list
+  - tests covering both validation failures and success
+
+## Supported Python versions
+
+Support only Python versions that are currently maintained (not end-of-life); see https://devguide.python.org/versions/. The minimum is currently 3.11. When adding or dropping a version, update all of these together:
+
+- `requires-python` and the `Programming Language :: Python :: 3.x` classifiers in `pyproject.toml`
+- `python_version` in `[tool.mypy]` in `pyproject.toml` (keep it equal to the minimum)
+- the `test` job's matrix in `.github/workflows/tests.yml`
+- the Python version used by the `typecheck` job in `tests.yml` and by `publish.yml` (use the newest supported version)
+- the "REQUIREMENTS" section of `README.md`
+- `CHANGES.md`
+
+Once the minimum is raised, newly available language and typing features (e.g., `typing.Self` with 3.11) may be used.
+
 ## Releasing
 
-Bump the version in `pyproject.toml`, update `CHANGES.md`, then push an annotated tag. The `publish.yml` GitHub Actions workflow will build, publish to PyPI, and create a GitHub release automatically. The annotated tag message is used as the release notes:
+1. Bump `version` in `pyproject.toml`.
+2. Add a `## X.Y.Z (YYYY-MM-DD)` entry at the top of `CHANGES.md`.
+3. Commit, push, and make sure CI is green. The publish workflow does not run tests.
+4. Push an annotated tag:
 
-```
-git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z
-```
+   ```
+   git tag -a vX.Y.Z -m "vX.Y.Z" && git push origin vX.Y.Z
+   ```
+
+Pushing a `v*` tag triggers `.github/workflows/publish.yml`. Before publishing, it fails if the tag doesn't match the `pyproject.toml` version, or if `CHANGES.md` has no entry for that version. It then builds, publishes to PyPI, and creates a GitHub release whose notes are that version's `CHANGES.md` entry.

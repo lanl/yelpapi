@@ -3,18 +3,18 @@
 [![Tests](https://github.com/lanl/yelpapi/actions/workflows/tests.yml/badge.svg)](https://github.com/lanl/yelpapi/actions/workflows/tests.yml)
 
 ## LICENSE
-This software is licensed under the [BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE](LICENSE) file for the exact text of the license. You are obligated to give attribution if you use this code.
+This software is licensed under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE](LICENSE) file for the exact text of the license. You are obligated to give attribution if you use this code.
 
 ## ABOUT
 yelpapi is a pure Python implementation of the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
 
 ## REQUIREMENTS
-This code requires Python 3.9 or higher and [requests](https://github.com/requests/requests).
+This code requires Python 3.11 or higher and [requests](https://github.com/psf/requests).
 
 ## INSTALL
 yelpapi is available on PyPI at https://pypi.org/project/yelpapi/.
 
-Install using [pip](http://www.pip-installer.org/):
+Install using [pip](https://pip.pypa.io/):
 
     pip install yelpapi
 
@@ -24,7 +24,7 @@ This API is demonstrated more thoroughly in [examples.py](examples/examples.py),
 ```python
 from yelpapi import YelpAPI
 with YelpAPI(api_key) as yelp_api:
-    search_results = yelp_api.search_query(args)
+    search_results = yelp_api.search_query(term='ice cream', location='austin, tx')
 ```
 
 You can also set timeouts so API calls do not block indefinitely in degraded network conditions:
@@ -32,16 +32,16 @@ You can also set timeouts so API calls do not block indefinitely in degraded net
 ```python
 from yelpapi import YelpAPI
 with YelpAPI(api_key, timeout_s=3.0) as yelp_api:
-    search_results = yelp_api.search_query(args)
+    search_results = yelp_api.search_query(term='ice cream', location='austin, tx')
 ```
 
 Under the covers, this module uses a [`requests.Session`](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object for issuing all API calls, which offers potentially significant performance benefits over issuing separate API calls outside of a session. You should be sure to close the underlying session when all API interactions are complete. The above examples demonstrate using the class as a context manager, which will automatically close the connection when you're done and is the preferred way of using the class, but you can also manually close it like this if a context manager won't work for your use case:
 
 ```python
 from yelpapi import YelpAPI
+yelp_api = YelpAPI(api_key)
 try:
-    yelp_api = YelpAPI(api_key)
-    search_results = yelp_api.search_query(args)
+    search_results = yelp_api.search_query(term='ice cream', location='austin, tx')
 finally:
     yelp_api.close()
 ```

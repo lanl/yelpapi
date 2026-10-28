@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "yelpapi"
-version = "2.6.0"
+version = "2.7.0"
 description = "yelpapi is a pure Python implementation of the Yelp Fusion API."
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [
     {name = "Geoffrey Fairchild", email = "mail@gfairchild.com"},
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 dependencies = [
     "requests",
 ]
@@ -21,12 +21,13 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+    "Programming Language :: Python :: 3 :: Only",
+    "Typing :: Typed",
     "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
@@ -34,9 +35,11 @@ classifiers = [
 [project.optional-dependencies]
 dev = [
     "faker",
+    "mypy",
     "pytest",
     "pytest-cov",
     "requests-mock",
+    "types-requests",
 ]
 
 [project.urls]
@@ -45,3 +48,18 @@ Changelog = "https://github.com/lanl/yelpapi/blob/master/CHANGES.md"
 
 [tool.pytest.ini_options]
 addopts = "-vl --cov=yelpapi --import-mode=importlib"
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+files = ["yelpapi", "tests", "examples"]
+explicit_package_bases = true
+warn_unreachable = true
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool", "possibly-undefined"]
+
+# The test suite and examples are checked, but we don't require every test
+# helper/fixture to carry full type annotations.
+[[tool.mypy.overrides]]
+module = ["tests.*", "examples.*"]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false

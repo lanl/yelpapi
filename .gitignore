@@ -19,6 +19,7 @@ venv/
 .pytest_cache/
 .coverage
 htmlcov/
+.codebase-memory/
 
 # OS
 .DS_Store

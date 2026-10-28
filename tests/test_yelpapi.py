@@ -94,6 +94,21 @@ class TestYelpAPI:
 
         assert exc_info.value.args[0] == f'{error_code}: {error_description}'
 
+    @pytest.mark.parametrize('body, type_name', [
+        ('"an error occurred"', 'str'),
+        ('["error"]', 'list'),
+        ('42', 'int'),
+        ('null', 'NoneType'),
+    ])
+    def test_rejects_non_dict_json(self, yelp, faker, mock_request, body, type_name):
+        url = faker.uri()
+        mock_request.get(url, text=body)
+
+        with pytest.raises(YelpAPI.YelpAPIError) as exc_info:
+            yelp._query(url)
+
+        assert exc_info.value.args[0] == f'Unexpected response type: {type_name}'
+
     @pytest.mark.parametrize('status_code', [400, 401, 403, 404, 500])
     def test_raises_http_error(self, yelp, faker, mock_request, status_code):
         url = faker.uri()
