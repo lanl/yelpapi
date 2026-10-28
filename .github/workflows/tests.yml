@@ -2,10 +2,16 @@ name: Tests
 
 on:
   push:
+    branches: [master]
   pull_request:
 
 permissions:
   contents: read
+
+# Cancel an in-progress run when a newer commit is pushed to the same branch or pull request.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
@@ -49,6 +55,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.11', '3.12', '3.13', '3.14', '3.15']
 
