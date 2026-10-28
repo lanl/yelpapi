@@ -57,7 +57,8 @@ Support only Python versions that are currently maintained (not end-of-life); se
 - `requires-python` and the `Programming Language :: Python :: 3.x` classifiers in `pyproject.toml`
 - `python_version` in `[tool.mypy]` in `pyproject.toml` (keep it equal to the minimum)
 - the `test` job's matrix in `.github/workflows/tests.yml`
-- the Python version used by the `typecheck` job in `tests.yml` and by `publish.yml` (use the newest supported version)
+- the Python version used by the `typecheck` job in `tests.yml` (keep it equal to the minimum, matching `python_version`)
+- the Python version used by `publish.yml` (use the newest supported version)
 - the "REQUIREMENTS" section of `README.md`
 - `CHANGES.md`
 

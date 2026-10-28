@@ -14,12 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # mypy checks against python_version in pyproject.toml regardless of the
-      # interpreter it runs on, so a single job is sufficient.
+      # mypy targets python_version in pyproject.toml regardless of the interpreter it runs on, so a single job is
+      # sufficient. Run it on that same minimum version so installed dependencies and stubs match what users on the
+      # minimum get. Keep this equal to python_version.
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3.15'
+          python-version: '3.11'
 
       - name: Install dependencies
         run: pip install -e ".[dev]"
