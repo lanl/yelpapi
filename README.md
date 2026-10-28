@@ -6,7 +6,7 @@
 This software is licensed under the [BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause). Please refer to the separate [LICENSE](LICENSE) file for the exact text of the license. You are obligated to give attribution if you use this code.
 
 ## ABOUT
-yelpapi is a pure Python implementation of the [Yelp Places API](https://docs.developer.yelp.com/docs/fusion-intro) (formerly Yelp Fusion). It is simple, fast, and robust to any changes Yelp may make to the API in the future.
+yelpapi is a pure Python implementation of Yelp's public REST APIs, including the [Yelp Places API](https://docs.developer.yelp.com/docs/places-intro), the [Yelp AI API](https://docs.developer.yelp.com/docs/yelp-ai-api), [Yelp Insights](https://docs.developer.yelp.com/docs/yelp-insights), and the [Home Services API](https://docs.developer.yelp.com/docs/home-services-api). It is simple, fast, and robust to any changes Yelp may make to its APIs in the future.
 
 ## REQUIREMENTS
 This code requires Python 3.11 or higher and [requests](https://github.com/psf/requests).

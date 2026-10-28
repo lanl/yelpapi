@@ -28,7 +28,7 @@ CI (`.github/workflows/tests.yml`) runs `pytest` on every supported Python versi
 
 ## Architecture
 
-This is a thin Python wrapper around the [Yelp Fusion API](https://docs.developer.yelp.com/docs/fusion-intro). The entire implementation lives in `yelpapi/yelpapi.py` as a single `YelpAPI` class, re-exported from `yelpapi/__init__.py` via `__all__`.
+This is a thin Python wrapper around Yelp's public REST APIs: the [Yelp Places API](https://docs.developer.yelp.com/docs/places-intro), the [Yelp AI API](https://docs.developer.yelp.com/docs/yelp-ai-api), [Yelp Insights](https://docs.developer.yelp.com/docs/yelp-insights), and the [Home Services API](https://docs.developer.yelp.com/docs/home-services-api). The entire implementation lives in `yelpapi/yelpapi.py` as a single `YelpAPI` class, re-exported from `yelpapi/__init__.py` via `__all__`.
 
 **Design philosophy:** The wrapper is intentionally minimal and extensible — all API parameters are passed through `**kwargs` directly to the HTTP request, so it doesn't break when Yelp adds new parameters. The only thing that would break it is a URL scheme change. Public methods return `dict[str, Any]`; don't introduce `TypedDict`s or response models, since they would break this pass-through design.
 

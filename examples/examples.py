@@ -64,9 +64,9 @@ def run_restricted(call: Callable[[], dict[str, Any]]) -> dict[str, Any] | None:
 
 argparser = argparse.ArgumentParser(
     description='Example Yelp queries using yelpapi. '
-                'Visit https://docs.developer.yelp.com/docs/fusion-intro to get the necessary API keys.',
+                'Visit https://docs.developer.yelp.com/docs/places-intro to get the necessary API keys.',
 )
-argparser.add_argument('api_key', type=str, help='Yelp Fusion API Key')
+argparser.add_argument('api_key', type=str, help='Yelp API key')
 args = argparser.parse_args()
 
 with YelpAPI(args.api_key) as yelp_api:
@@ -179,7 +179,7 @@ with YelpAPI(args.api_key) as yelp_api:
     print(SEP)
 
     # Business Service Offerings API: https://docs.developer.yelp.com/reference/v3_business_service_offerings
-    # NOTE: requires special permissions on the Yelp Places API key
+    # NOTE: requires special permissions on the Yelp API key
     # DEPRECATED: Yelp recommends "Jobs offered" on the Business API instead
     print("***** service offerings for Amy's on 6th St. *****\nyelp_api.business_service_offerings_query(id='amys-ice-creams-austin-3')\n")
     run_restricted(lambda: yelp_api.business_service_offerings_query(id='amys-ice-creams-austin-3'))

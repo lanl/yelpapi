@@ -55,7 +55,8 @@ TRANSACTION_SEARCH_API_URL = 'https://api.yelp.com/v3/transactions/{}/search'
 
 class YelpAPI:
     """
-        This class implements the Yelp Places (formerly Fusion) REST API. It offers access to the following APIs:
+        This class implements Yelp's public REST APIs (Places, AI, Insights, and Home Services). It offers access to the
+        following APIs:
 
             * AI Chat API - https://docs.developer.yelp.com/reference/v2_ai_chat
             * Autocomplete API - https://docs.developer.yelp.com/reference/v3_autocomplete
@@ -104,8 +105,8 @@ class YelpAPI:
     class YelpAPIError(Exception):
         """
             Raised when a successful HTTP response contains a Yelp `error` object or a body that isn't a JSON object.
-            HTTP error statuses (4xx/5xx) raise `requests.HTTPError` instead. Currently, there is no master list of all
-            possible errors, but there is an open issue on this: https://github.com/Yelp/yelp-fusion/issues/95.
+            HTTP error statuses (4xx/5xx) raise `requests.HTTPError` instead. The possible errors for each endpoint are
+            listed in its documentation, which is linked from the corresponding method.
         """
         pass
 
@@ -302,7 +303,7 @@ class YelpAPI:
                 * is_enabled - whether Request a Phone Call should be enabled; pass a bool (`True` or `False`), not a
                   string, since the value is sent to Yelp as-is
 
-            NOTE: requires an OAuth access token with the "leads" scope rather than a Yelp Places API key. Pass the
+            NOTE: requires an OAuth access token with the "leads" scope rather than a Yelp API key. Pass the
             access token as `api_key` when constructing `YelpAPI`.
         """
         if not id:
@@ -338,7 +339,7 @@ class YelpAPI:
             required parameters:
                 * id - business ID or alias
 
-            NOTE: requires special permissions on the Yelp Places API key.
+            NOTE: requires special permissions on the Yelp API key.
 
             DEPRECATED: Yelp has deprecated this endpoint in favor of "Jobs offered", which can be enabled on the
             Business API (see `business_query`).
@@ -616,14 +617,12 @@ class YelpAPI:
 
         response_json = response.json()
 
-        # Every Yelp Fusion endpoint returns a JSON object. Anything else (e.g., a bare string or list) is unexpected
+        # Every Yelp endpoint returns a JSON object. Anything else (e.g., a bare string or list) is unexpected
         # and must be rejected before the error check below, which assumes a dict.
         if not isinstance(response_json, dict):
             raise YelpAPI.YelpAPIError(f'Unexpected response type: {type(response_json).__name__}')
 
-        # Yelp can return one of many different API errors, so check for one of them.
-        # The Yelp Fusion API does not yet have a complete list of errors, but this is on the TODO list; see
-        # https://github.com/Yelp/yelp-fusion/issues/95 for more info.
+        # Yelp reports errors as {"error": {"code": ..., "description": ...}}. Malformed error values are still raised.
         if 'error' in response_json:
             error = response_json['error']
             if isinstance(error, dict):
