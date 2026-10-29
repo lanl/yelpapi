@@ -32,8 +32,8 @@ jobs:
       - name: Extract release notes from CHANGES.md
         run: |
           version="${GITHUB_REF_NAME#v}"
-          awk -v v="$version" '/^## /{if (f) exit; f = (index($0, "## " v " ") == 1); next} f' CHANGES.md > release-notes.md
-          if [ ! -s release-notes.md ]; then
+          awk -v v="$version" '/^## /{if (f) exit; f = (index($0, "## " v " ") == 1); next} f' CHANGES.md > "${RUNNER_TEMP}/release-notes.md"
+          if [ ! -s "${RUNNER_TEMP}/release-notes.md" ]; then
             echo "No CHANGES.md entry found for ${version}" >&2
             exit 1
           fi
@@ -49,4 +49,4 @@ jobs:
       - name: Create GitHub release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "${GITHUB_REF_NAME}" dist/*.whl dist/*.tar.gz --title "YelpAPI ${GITHUB_REF_NAME}" --notes-file release-notes.md
+        run: gh release create "${GITHUB_REF_NAME}" dist/*.whl --title "YelpAPI ${GITHUB_REF_NAME}" --notes-file "${RUNNER_TEMP}/release-notes.md"
