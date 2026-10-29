@@ -111,6 +111,10 @@ class YelpAPI:
         pass
 
     def __init_subclass__(cls, **kwargs: Any) -> None:
+        # Public methods used to call `_query`, so subclasses overrode it to customize every request (e.g., caching,
+        # retries, or logging). Public methods now call `_get`/`_post`, so such an override would silently stop
+        # running. Warn when the subclass is defined, since the override itself is never called and so can't warn.
+        # Remove this along with `_query` in 2.9.0.
         super().__init_subclass__(**kwargs)
         if '_query' in cls.__dict__:
             warnings.warn(
